@@ -1,0 +1,32 @@
+{
+  "name": "financa-mastrumado-web",
+  "version": "1.0.0",
+  "description": "Financial Management web version",
+  "main": "main.js",
+  "engines" : {
+    "node" : "0.10.^"
+  },
+  "scripts": {
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FinancialManagement/financa-mastrumado-web.git"
+  },
+  "author": {
+    "name": "lasaro-dumer",
+    "email": "ladumer@hotmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/FinancialManagement/financa-mastrumado-web/issues"
+  },
+  "homepage": "https://github.com/FinancialManagement/financa-mastrumado-web",
+  "dependencies": {
+    "express": "3.4.4",
+    "express-session": "*",
+    "jade": "*",
+    "pg": "2.x",
+    "stylus": "*",
+    "socket.io": "^1.0.6"
+  }
+}

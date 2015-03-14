@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+  body
+    - if(typeof(login)!='undefined'){
+      div
+        span Minha conta
+        a(href='/logout') Log out
+    - }
+    block content
