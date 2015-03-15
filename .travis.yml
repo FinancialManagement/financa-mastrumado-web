@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- '0.10'
+deploy:
+  provider: heroku
+  api_key:
+    secure: dhS01gMJsRC9wUP5BCRF2x7RxvRcvt3GS4YhwF92Ic8xm5EMupY++MV76Y++rEanJxCJAAetWRDWVnMZIk8hKLGV1OmghFk+uLQ4XeVqni9W7xsFdF38oU1BLZ8C85XyuOg+U6KjNuWzAljiiPdXSpIdiGD5wVKNdiugw3FmnEU=
+  app: financa-mastrumado-web
+  on:
+    repo: FinancialManagement/financa-mastrumado-web
