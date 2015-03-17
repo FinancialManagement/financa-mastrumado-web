@@ -37,11 +37,11 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-/*
 app.get('/session',function(req, res){
   console.log('session='+req.session.id);
   res.send("Nada a fazer por aqui... foi mal");
 });
+/*
 app.get('/users', user.list);
 app.get('/partidas', partidas.listar);
 app.get('/registro', registro.main);
