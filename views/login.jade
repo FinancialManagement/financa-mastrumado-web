@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1.welcome.title= title
+  div.welcome.text
+    p Welcome to #{title}
+    form.login(id="formlogin",action='partidas',method="POST")
+      span E-mail
+      input(type='text',id="email",name="email",value= email)
+      span Password
+      input(type='password',id="senha",name="senha",value= senha)
+      input.btn(type='button',style='float:left;',id="registrese",value='Sign up')
+      input.btn(type='button',style='float:right;',id="login",value='Sign in')

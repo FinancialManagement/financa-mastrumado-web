@@ -1,7 +1,9 @@
 exports.doLogin = function(user){
   if(user){
-    return {msg:'oh yes'};
+    console.log(user.name);
+    return {ok:true,msg:'oh yes'};
   } else{
-    return {msg:'oh no'};
+    console.log(user);
+    return {ok:false,msg:'oh no'};
   }
 }

@@ -27,6 +27,7 @@
     "jade": "*",
     "pg": "2.x",
     "stylus": "*",
-    "socket.io": "^1.0.6"
+    "socket.io": "^1.0.6",
+    "serve-favicon": "*"
   }
 }

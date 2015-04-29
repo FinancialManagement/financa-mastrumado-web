@@ -4,12 +4,19 @@
 var usrCtrl = require('../controllers/usuariosCtrl');
 
 exports.index = function(req, res){
-  console.log(usrCtrl.doLogin().msg);
-  console.log(usrCtrl.doLogin({name:'teste'}).msg);
+  var l1 = usrCtrl.doLogin();
+  if(l1.ok){
+    console.log(l1.msg);
+  }
+  var l2 = usrCtrl.doLogin({name:'teste'});
+  if(l2.ok){
+    console.log(l2.msg);
+  }
   if(req.session.login){
     console.log('com login');
+    res.render('index', { title: 'Financial Management'});
   }else{
     console.log('sem login');
+    res.render('login', { title: 'Financial Management'});
   }
-  res.render('index', { title: 'Financial Management'});
 }

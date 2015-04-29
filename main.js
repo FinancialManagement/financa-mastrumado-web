@@ -7,6 +7,7 @@ var session = require('express-session');
 var routes = require('./routes');
 var path = require('path');
 var pg = require('pg');
+var favicon = require('serve-favicon');
 
 var server_port = process.env.PORT || 5000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
@@ -22,7 +23,9 @@ app.use(session({
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.favicon());
+//app.use(express.favicon());
+//app.use(express.favicon(path.join(__dirname,'public','images','favicon.ico')));
+app.use(express.favicon("public/images/favicon.ico")); 
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
