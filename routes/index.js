@@ -8,7 +8,7 @@ exports.index = function(req, res){
   if(l1.ok){
     console.log(l1.msg);
   }
-  var l2 = usrCtrl.doLogin({login:'user@cash.com',senha:'senha123'});
+  var l2 = usrCtrl.doLogin({login:'user@cash.com',senha:'senh@'});
   if(l2.ok){
     console.log(l2.msg);
     console.log(l2.user);

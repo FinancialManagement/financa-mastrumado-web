@@ -11,3 +11,39 @@ block content
       input(type='password',id="senha",name="senha",value= senha)
       input.btn(type='button',style='float:left;',id="registrese",value='Sign up')
       input.btn(type='button',style='float:right;',id="login",value='Sign in')
+  script.
+    function login(){
+      $.ajax({
+              type: 'POST',
+              url: '/login',
+              data: { email: $('#email').val(),
+                      senha: $('#senha').val()},
+              success: function (data) {
+                  var ret = jQuery.parseJSON(data);
+                  console.log('ret='+data)
+                  alert(ret.msg);
+                  if(ret.ok){
+                    $('#formlogin').attr('action','partidas');
+                    $('#formlogin').submit();
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.log('Error: ' + error.message);
+                  alert('Erro conectando no servidor.');
+              }
+      });
+    }
+    $(document).ready(function() {
+      console.log("ready!");
+      $("#login").click(function () {
+        console.log("teste login")
+        //$('#formlogin').attr('action','partidas');
+        //$('#formlogin').submit();
+        login();
+      });
+      $("#registrese").click(function () {
+        console.log("teste registro")
+        $('#formlogin').attr('action','registro');
+        $('#formlogin').submit();
+      });
+    });

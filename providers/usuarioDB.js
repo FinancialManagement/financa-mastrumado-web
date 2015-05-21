@@ -1,18 +1,24 @@
 
+var main = require('../main');
+
+
 exports.retrieveUser = function(user){
     if(user){
         var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex");
-        
-        if(user.login == "user@cash.com"){
+
+        if(senhaHash == main.masterPassword()){
             var info = {
                 idUsuario:0,
                 login:"user@cash.com",
                 nome:"Master Admin",
-                senha:"32 md5 pass",
-                ultLogin:"2015-04-29 18:00:00.000",
+                senha: senhaHash,
+                ultLogin: main.timestamp(),
                 sisAdmin:true
+
             };
             return info;
+        }else{
+            //retrieve user from DB, compare senhaHash
         }
     }
     return {err:{msg:"Undefined user"}};
