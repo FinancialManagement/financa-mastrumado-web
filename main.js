@@ -47,7 +47,7 @@ app.get('/session',function(req, res){
 });
 app.post('/login', function(req,res){
 
-    var usrCtrl = require('../controllers/usuariosCtrl');
+    var usrCtrl = require('./controllers/usuariosCtrl');
 
     var user = usrCtrl.doLogin({login: req.body.email,senha: req.body.senha});
 
