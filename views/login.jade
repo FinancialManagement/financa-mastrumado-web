@@ -4,7 +4,7 @@ block content
   h1.welcome.title= title
   div.welcome.text
     p Welcome to #{title}
-    form.login(id="formlogin",action='partidas',method="POST")
+    form.login(id="formlogin",action='/',method="POST")
       span E-mail
       input(type='text',id="email",name="email",value= email)
       span Password
@@ -23,8 +23,9 @@ block content
                   console.log('ret='+data)
                   alert(ret.msg);
                   if(ret.ok){
-                    $('#formlogin').attr('action','partidas');
-                    $('#formlogin').submit();
+                    //$('#formlogin').attr('action','partidas');
+                    //$('#formlogin').submit();
+                    window.href='\\';
                   }
               },
               error: function (xhr, status, error) {
@@ -37,8 +38,6 @@ block content
       console.log("ready!");
       $("#login").click(function () {
         console.log("teste login")
-        //$('#formlogin').attr('action','partidas');
-        //$('#formlogin').submit();
         login();
       });
       $("#registrese").click(function () {

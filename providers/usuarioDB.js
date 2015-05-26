@@ -9,7 +9,7 @@ exports.retrieveUser = function(user){
         if(senhaHash == main.masterPassword()){
             var info = {
                 idUsuario:0,
-                login:"user@cash.com",
+                login:user.login,
                 nome:"Master Admin",
                 senha: senhaHash,
                 ultLogin: main.timestamp(),
