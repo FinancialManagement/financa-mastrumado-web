@@ -3,23 +3,21 @@ var main = require('../main');
 
 
 exports.retrieveUser = function(user){
-    if(user){
-        var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex");
-
-        if(senhaHash == main.masterPassword()){
-            var info = {
-                idUsuario:0,
-                login:user.login,
-                nome:"Master Admin",
-                senha: senhaHash,
-                ultLogin: main.timestamp(),
-                sisAdmin:true
-
-            };
-            return info;
-        }else{
-            //retrieve user from DB, compare senhaHash
+    var info= {
+        success: false,
+        msg: "Undefined user",
+        userData: {
+            idUsuario: undefined,
+            login:undefined,
+            nome:undefined,
+            senha: undefined,
+            ultLogin: main.timestamp(),
+            sisAdmin:undefined
         }
+    };
+
+    if(user){
+        console.log("buscando no DB");
     }
-    return {err:{msg:"Undefined user"}};
+    return info;
 }

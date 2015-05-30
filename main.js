@@ -49,15 +49,13 @@ app.post('/login', function(req,res){
 
     var usrCtrl = require('./controllers/usuariosCtrl');
 
-    var user = usrCtrl.doLogin({login: req.body.email,senha: req.body.senha});
+    var ret = usrCtrl.doLogin({login: req.body.email,senha: req.body.senha});
 
-    if(user.ok){
-        console.log(user.msg);
-        console.log(user.user);
-        req.session.login = user;
-        res.send('{"msg": "Login com sucesso","ok":true}');
+    if(ret.ok){
+        req.session.login = ret.user;
+        res.send('{"msg": "' +ret.msg+'","ok":true}');
     }else{
-        res.send('{"msg": "Email ou senha incorretos","ok":false}');
+        res.send('{"msg": "' +ret.msg+'","ok":false}');
     }
 });
 app.get('/logout', function(req, res){
