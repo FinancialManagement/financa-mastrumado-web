@@ -12,8 +12,10 @@ var moment = require('moment');
 
 var server_port = process.env.PORT || 5000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
-//global.conString = process.env.DATABASE_URL || 'postgres://sniugvsmhjrjoa:19OtuzbOYPLJYlJN2mcXR8p0CD@ec2-54-235-250-41.compute-1.amazonaws.com:5432/db1v390e3cajgv?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory';
+console.log("DATABASE_URL="+process.env.DATABASE_URL);
+global.conString = process.env.DATABASE_URL;
 //process.env.HEROKU_POSTGRESQL_CHARCOAL_URL;
+console.log("global.conString="+global.conString);
 var app = express();
 
 // all environments
