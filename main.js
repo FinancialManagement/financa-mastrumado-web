@@ -45,17 +45,15 @@ app.get('/session',function(req, res){
     res.send("Nada a fazer por aqui... foi mal");
 });
 app.post('/login', function(req,res){
-
     var usrCtrl = require('./controllers/usuariosCtrl');
 
     var ret = usrCtrl.doLogin({login: req.body.email,senha: req.body.senha});
 
     if(ret.ok){
         req.session.login = ret.user;
-        res.send('{"msg": "' +ret.msg+'","ok":true}');
-    }else{
-        res.send('{"msg": "' +ret.msg+'","ok":false}');
     }
+
+    res.send('{"msg": "' + ret.msg + '","ok":' + ret.ok + '}');
 });
 app.get('/logout', function(req, res){
     req.session.login = undefined;

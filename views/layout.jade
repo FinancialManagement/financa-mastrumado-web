@@ -3,6 +3,7 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/menu.css')
     link(rel="shortcut icon" href="/favicon.ico?ver=1")
     script(src='/js/jquery-2.1.1.js')
     script(src='/js/jquery.blockUI.js')
@@ -10,8 +11,43 @@ html
       $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
   body
     - if(typeof(login)!='undefined'){
-      div
-        span Minha conta
-        a(href='/logout') Log out
+    div(id='cssmenu')
+        ul
+            li
+                a(href='#')
+                    span Home
+            li(class='active has-sub')
+                a(href='#')
+                    span Products
+                    ul
+                        li(class='has-sub')
+                            a(href='#')
+                                span Product 1
+                                ul
+                                    li
+                                        a(href='#')
+                                            span Sub Product
+                                    li(class='last')
+                                        a(href='#')
+                                            span Sub Product
+                        li(class='has-sub')
+                            a(href='#')
+                                span Product 2
+                                ul
+                                    li
+                                        a(href='#')
+                                            span Sub Product
+                                    li(class='last')
+                                        a(href='#')
+                                            span Sub Product
+            li
+                a(href='/logout')
+                    span Logout
+            li
+                a(href='#')
+                    span About
+            li(class='last')
+                a(href='#')
+                    span Contact
     - }
     block content
