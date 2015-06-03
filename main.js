@@ -40,6 +40,12 @@ if ('development' == app.get('env')) {
 console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSS'));
 
 app.get('/', routes.index);
+app.get('/about',function(req, res){
+    res.render('about', {login:req.session.login});
+});
+app.get('/contact',function(req, res){
+    res.render('contact', {login:req.session.login});
+});
 app.get('/session',function(req, res){
     console.log('session='+req.session.id);
     res.send("Nada a fazer por aqui... foi mal");
