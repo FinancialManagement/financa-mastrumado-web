@@ -1,7 +1,11 @@
 doctype html
 html
   head
+    - if(typeof(title)!='undefined'){
     title= title
+    - } else {
+    title= 'Financial Management'
+    - }
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/menu.css')
     link(rel="shortcut icon" href="/favicon.ico?ver=1")
@@ -15,7 +19,7 @@ html
     div(id='cssmenu')
         ul
             li
-                a(href='#')
+                a(href='/')
                     span Home
             li(class='active has-sub')
                 a(href='#')
@@ -43,14 +47,21 @@ html
                                     span By type
             li(class='active has-sub')
                 a(href='#')
-                    span Teste
+                    span Settings
                 ul
+                    li
+                        a(href='/users')
+                            span Users
                     li(class='has-sub')
                         a(href='#')
-                            span teste 1
-                    li(class='has-sub')
-                        a(href='#')
-                            span teste 2
+                            span Groups
+                        ul
+                            li
+                                a(href='/groups')
+                                    span Management
+                            li(class='last')
+                                a(href='/groups/users')
+                                    span Group & Users
             li
                 a(href='/logout')
                     span Logout

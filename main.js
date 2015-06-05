@@ -40,31 +40,15 @@ if ('development' == app.get('env')) {
 console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSS'));
 
 app.get('/', routes.index);
-app.get('/about',function(req, res){
-    res.render('about', {login:req.session.login});
-});
-app.get('/contact',function(req, res){
-    res.render('contact', {login:req.session.login});
-});
-app.get('/session',function(req, res){
-    console.log('session='+req.session.id);
-    res.send("Nada a fazer por aqui... foi mal");
-});
-app.post('/login', function(req,res){
-    var usrCtrl = require('./controllers/usuariosCtrl');
-
-    var ret = usrCtrl.doLogin({login: req.body.email,senha: req.body.senha});
-
-    if(ret.ok){
-        req.session.login = ret.user;
-    }
-
-    res.send('{"msg": "' + ret.msg + '","ok":' + ret.ok + '}');
-});
-app.get('/logout', function(req, res){
-    req.session.login = undefined;
-    res.redirect('/');
-});
+app.get('/about',routes.about);
+app.get('/contact',routes.contact);
+app.get('/session', routes.session);
+app.get('/logout', routes.logout);
+app.get('/users', routes.users);
+app.get('/groups', routes.groups);
+app.get('/groups/users', routes.groupsUsers);
+//POSTS - for assync basically
+app.post('/login', routes.login);
 /*
 app.get('/users', user.list);
 app.get('/partidas', partidas.listar);
