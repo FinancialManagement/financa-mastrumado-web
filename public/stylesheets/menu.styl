@@ -1,3 +1,4 @@
+@require 'baseColors.styl'
 #cssmenu,
 #cssmenu ul,
 #cssmenu ul li,
@@ -22,9 +23,9 @@
   float: right;
 #cssmenu > ul > li > a
   padding: 15px 20px;
-  border-left: 1px solid #365BB0;
-  border-right: 1px solid #365BB0;
-  border-top: 1px solid #365BB0;
+  border-left: 1px solid primary-color2;
+  border-right: 1px solid primary-color2;
+  border-top: 1px solid primary-color2;
   cursor: pointer;
   z-index: 2;
   font-size: 14px;
@@ -32,29 +33,29 @@
   text-decoration: none;
   color: #ffffff;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
-  background: #365BB0;
-  background: -webkit-linear-gradient(#365BB0, #1240AB);
-  background: -moz-linear-gradient(#365BB0, #1240AB);
-  background: -o-linear-gradient(#365BB0, #1240AB);
-  background: -ms-linear-gradient(#365BB0, #1240AB);
-  background: linear-gradient(#365BB0, #1240AB);
+  background: primary-color2;
+  background: -webkit-linear-gradient(primary-color2, primary-color3);
+  background: -moz-linear-gradient(primary-color2, primary-color3);
+  background: -o-linear-gradient(primary-color2, primary-color3);
+  background: -ms-linear-gradient(primary-color2, primary-color3);
+  background: linear-gradient(primary-color2, primary-color3);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 #cssmenu > ul > li > a:hover,
 #cssmenu > ul > li.active > a,
 #cssmenu > ul > li.open > a
   color: #eeeeee;
-  background: #1240AB;
-  background: -webkit-linear-gradient(#1240AB, #5777C0);
-  background: -moz-linear-gradient(#1240AB, #5777C0);
-  background: -o-linear-gradient(#1240AB, #5777C0);
-  background: -ms-linear-gradient(#1240AB, #5777C0);
-  background: linear-gradient(#1240AB, #5777C0);
+  background: primary-color3;
+  background: -webkit-linear-gradient(primary-color3, primary-color1);
+  background: -moz-linear-gradient(primary-color3, primary-color1);
+  background: -o-linear-gradient(primary-color3, primary-color1);
+  background: -ms-linear-gradient(primary-color3, primary-color1);
+  background: linear-gradient(primary-color3, primary-color1);
 #cssmenu > ul > li.open > a
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid #365BB0;
+  border-bottom: 1px solid primary-color2;
 #cssmenu > ul > li:last-child > a,
 #cssmenu > ul > li.last > a
-  border-bottom: 1px solid #365BB0;
+  border-bottom: 1px solid primary-color2;
 .holder
   width: 0;
   height: 0;
@@ -99,12 +100,12 @@
   text-decoration: none;
   font-size: 13px;
   color: #eeeeee;
-  background: #0D3184;
+  background: primary-color4;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 #cssmenu ul ul li:hover > a,
 #cssmenu ul ul li.open > a,
 #cssmenu ul ul li.active > a
-  background: #082568;
+  background: primary-color5;
   color: #ffffff;
 #cssmenu ul ul li:first-child > a
   box-shadow: none;
