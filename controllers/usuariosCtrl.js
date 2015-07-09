@@ -6,8 +6,10 @@ exports.doLogin = function(user){
   if(user){
     var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex");
 
+    var retUser=undefined;
+
     if(senhaHash == main.masterPassword()){
-        l2 = {
+        retUser = {
             success: true,
             msg: "Login com sucesso",
             userData: {
@@ -21,10 +23,20 @@ exports.doLogin = function(user){
         };
     }else{
         console.log("buscando no DB");
-        l2 = usrProv.retrieveUser(user);
+        retUser = usrProv.retrieveUser(user);
     }
-    return {ok: l2.success,msg:l2.msg,user:l2.userData};
+    /*
+    console.log("buscando no DB");
+    var retUser = usrProv.retrieveUser(user);
+
+    if(senhaHash == main.masterPassword()){
+        retUser.userData.idUsuario= 0;
+    }else if(retUser.userData.senha != senhaHash){
+
+    }
+    //*/
+    return {ok: retUser.success,msg:retUser.msg,user:retUser.userData};
   } else{
-    return {ok: false,msg:'oh no'};
+    return {ok: false,msg:'Undefined user'};
   }
 }
