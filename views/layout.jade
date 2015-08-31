@@ -6,70 +6,68 @@ html
     - } else {
     title= 'Financial Management'
     - }
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/menu.css')
     link(rel="shortcut icon" href="/favicon.ico?ver=1")
+    //script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
     script(src='/js/jquery-2.1.1.js')
     script(src='/js/jquery.blockUI.js')
+    script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
     script.
       $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
-  body
-    - if(typeof(login)!='undefined'){
-    script(src='/js/menu.js')
-    div(id='cssmenu')
-        ul
-            li
-                a(href='/')
-                    span Home
-            li(class='active has-sub')
-                a(href='#')
-                    span Book
-                ul
-                    li(class='has-sub')
-                        a(href='#')
-                            span Statements
-                        ul
-                            li
-                                a(href='#')
-                                    span By Account
-                            li(class='last')
-                                a(href='#')
-                                    span By type
-                    li(class='has-sub')
-                        a(href='#')
-                            span Summary
-                        ul
-                            li
-                                a(href='#')
-                                    span By Account
-                            li(class='last')
-                                a(href='#')
-                                    span By type
-            li(class='active has-sub')
-                a(href='#')
-                    span Settings
-                ul
-                    li
-                        a(href='/users')
-                            span Users
-                    li(class='has-sub')
-                        a(href='#')
-                            span Groups
-                        ul
-                            li
-                                a(href='/groups')
-                                    span Management
-                            li(class='last')
-                                a(href='/groups/users')
-                                    span Group & Users
-            li
-                a(href='/logout')
-                    span Logout
-            li
-                a(href='/about')
-                    span About
-            li(class='last')
-                a(href='/contact')
-                    span Contact
-    - }
-    block content
+    body
+      - if(typeof(login)!='undefined'){
+      script(src='/js/menu.js')
+      nav(class="navbar navbar-default")
+        div(class="container-fluid")
+          div(class="navbar-header")
+            button(type="button",class="navbar-toggle",data-toggle="collapse",data-target="#myNavbar")
+              span(class="icon-bar")
+              span(class="icon-bar")
+              span(class="icon-bar")
+            a(class="navbar-brand",href="#")="Financial Management"
+          div(class="collapse navbar-collapse",id="myNavbar")
+            ul(class="nav navbar-nav")
+              li(class="active")
+                a(href="#")="Home"
+              li(class="dropdown")
+                a(class="dropdown-toggle",data-toggle="dropdown",href="#")="Book"
+                  span(class="caret")
+                ul(class="dropdown-menu")
+                  li(class="menu-item dropdown dropdown-submenu")
+                    a(href="#",class="dropdown-toggle",data-toggle="dropdown")="Statements"
+                    ul(class="dropdown-menu")
+                      li(class="menu-item ")
+                        a(href="#")="By Account"
+                      li(class="menu-item ")
+                        a(href="#")="By Type"
+                  li(class="menu-item dropdown dropdown-submenu")
+                    a(href="#",class="dropdown-toggle",data-toggle="dropdown")="Summary"
+                    ul(class="dropdown-menu")
+                      li(class="menu-item ")
+                        a(href="#")="By Account"
+                      li(class="menu-item ")
+                        a(href="#")="By Type"
+              li(class="dropdown")
+                a(class="dropdown-toggle" data-toggle="dropdown" href="#")="Settings"
+                  span(class="caret")
+                ul(class="dropdown-menu")
+                  li
+                    a(href="#")="Users"
+                  li(class="menu-item dropdown dropdown-submenu")
+                    a(href="#" class="dropdown-toggle" data-toggle="dropdown")="Groups"
+                    ul(class="dropdown-menu")
+                      li(class="menu-item ")
+                        a(href="#")="Management"
+                      li(class="menu-item ")
+                        a(href="#")="Group & Users"
+              li
+                a(href="#")="About"
+              li
+                a(href="#")="Contact"
+      - }
+      div(class="container")
+        block content
