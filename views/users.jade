@@ -2,3 +2,19 @@ extends layout
 
 block content
     h1.settings.title Users
+    div.settings
+        form(id="formUsers",action='/users',method="POST")
+            span.label ID:
+            span.value(id="userID",name="userID") #{userID} 
+            span.label Login:
+            input(type='text',id="userLogin",name="userLogin",value= userLogin)
+            span.label Name:
+            input(type='text',id="userName",name="userName",value= userName)
+            span.label Password:
+            input(type='password',id="userPassword",name="userPassword",value= userPassword)
+            span.label is System Admin?
+            input(type='checkbox',id="userIsSysAdmin",name="userIsSysAdmin",value= userIsSysAdmin)
+            span.label Last login:
+            span.value(id="userUltLogin",name="userUltLogin") #{userUltLogin} 
+            input.btn(type='button',style='float:right;',id="login",value='Sign in')
+  

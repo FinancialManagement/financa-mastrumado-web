@@ -9,7 +9,7 @@ block content
       input(type='text',id="email",name="email",value= email)
       span Password
       input(type='password',id="senha",name="senha",value= senha)
-      input.btn(type='button',style='float:left;',id="registrese",value='Sign up')
+      input.btn(type='button',style='float:left;display:none;',id="registrese",value='Sign up')
       input.btn(type='button',style='float:right;',id="login",value='Sign in')
   script.
     function login(){
@@ -23,8 +23,6 @@ block content
                   console.log('ret='+data)
                   alert(ret.msg);
                   if(ret.ok){
-                    //$('#formlogin').attr('action','partidas');
-                    //$('#formlogin').submit();
                     window.href='\\';
                     window.location.reload();
                   }
