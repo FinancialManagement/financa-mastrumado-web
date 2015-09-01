@@ -4,13 +4,25 @@ block content
   h1.welcome.title= title
   div.welcome.text
     p Welcome to #{title}
-    form.login(id="formlogin",action='/',method="POST")
-      span E-mail
-      input(type='text',id="email",name="email",value= email)
-      span Password
-      input(type='password',id="senha",name="senha",value= senha)
-      input.btn(type='button',style='float:left;display:none;',id="registrese",value='Sign up')
-      input.btn(type='button',style='float:right;',id="login",value='Sign in')
+    form.form-horizontal(id="formlogin",action='/',method="POST")
+      div.form-group
+        label.col-sm-2.control-label(for="email")="Email"
+        div.col-sm-10
+          input.form-control(type="email" id="email" placeholder="Email")
+      div.form-group
+        label.col-sm-2.control-label(for="senha")="Password"
+        div.col-sm-10
+          input.form-control(type="password" id="senha" placeholder="Password")
+      div.form-group
+        div.col-sm-offset-2.col-sm-10
+          div.checkbox
+            label
+              input(type="checkbox")
+              ="Remember Me"
+      div.form-group
+        div.col-sm-offset-2.col-sm-10
+          input.btn(type='button',style='float:left;display:none;',id="registrese",value='Sign up')
+          input.btn.btn-default(type='button',style='float:right;',id="login",value='Sign in')
   script.
     function login(){
       $.ajax({
@@ -20,8 +32,8 @@ block content
                       senha: $('#senha').val()},
               success: function (data) {
                   var ret = jQuery.parseJSON(data);
-                  console.log('ret='+data)
-                  alert(ret.msg);
+                  console.log('ret='+data);
+                  //alert(ret.msg);
                   if(ret.ok){
                     window.href='\\';
                     window.location.reload();
@@ -36,11 +48,11 @@ block content
     $(document).ready(function() {
       console.log("ready!");
       $("#login").click(function () {
-        console.log("teste login")
+        console.log("teste login");
         login();
       });
       $("#registrese").click(function () {
-        console.log("teste registro")
+        console.log("teste registro");
         $('#formlogin').attr('action','registro');
         $('#formlogin').submit();
       });
