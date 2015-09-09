@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2015-05-30 21:44:04.393
+-- Last modification date: 2015-09-09 19:19:29.415
 
 
 
@@ -8,9 +8,18 @@
 -- Table: CategoriasOcorrencia
 CREATE TABLE CategoriasOcorrencia (
     idCategoria serial  NOT NULL,
-    idGrupo int  NOT NULL,
     tipo int  NOT NULL,
     CONSTRAINT CategoriasOcorrencia_pk PRIMARY KEY (idCategoria)
+);
+
+
+
+-- Table: Colaboradores
+CREATE TABLE Colaboradores (
+    idConta int  NOT NULL,
+    idUsuario int  NOT NULL,
+    dono boolean  NULL,
+    CONSTRAINT Colaboradores_pk PRIMARY KEY (idConta,idUsuario)
 );
 
 
@@ -18,20 +27,10 @@ CREATE TABLE CategoriasOcorrencia (
 -- Table: Contas
 CREATE TABLE Contas (
     idConta serial  NOT NULL,
-    idGrupo int  NOT NULL,
     nome varchar(20)  NOT NULL,
     criada timestamp  NOT NULL,
     ativa boolean  NOT NULL,
     CONSTRAINT Contas_pk PRIMARY KEY (idConta)
-);
-
-
-
--- Table: Grupos
-CREATE TABLE Grupos (
-    idGrupo serial  NOT NULL,
-    nome varchar(50)  NOT NULL,
-    CONSTRAINT Grupos_pk PRIMARY KEY (idGrupo)
 );
 
 
@@ -98,16 +97,6 @@ CREATE TABLE RegraOperacao (
 
 
 
--- Table: UsuarioGrupo
-CREATE TABLE UsuarioGrupo (
-    idUsuario int  NOT NULL,
-    idGrupo int  NOT NULL,
-    isAdmin boolean  NOT NULL,
-    CONSTRAINT UsuarioGrupo_pk PRIMARY KEY (idUsuario,idGrupo)
-);
-
-
-
 -- Table: Usuarios
 CREATE TABLE Usuarios (
     idUsuario serial  NOT NULL,
@@ -126,22 +115,22 @@ CREATE TABLE Usuarios (
 
 
 -- foreign keys
--- Reference:  CategoriasOcorrencia_Grupo (table: CategoriasOcorrencia)
+-- Reference:  Colaboradores_Contas (table: Colaboradores)
 
 
-ALTER TABLE CategoriasOcorrencia ADD CONSTRAINT CategoriasOcorrencia_Grupo 
-    FOREIGN KEY (idGrupo)
-    REFERENCES Grupos (idGrupo)
+ALTER TABLE Colaboradores ADD CONSTRAINT Colaboradores_Contas 
+    FOREIGN KEY (idConta)
+    REFERENCES Contas (idConta)
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE 
 ;
 
--- Reference:  Contas_Grupo (table: Contas)
+-- Reference:  Colaboradores_Usuarios (table: Colaboradores)
 
 
-ALTER TABLE Contas ADD CONSTRAINT Contas_Grupo 
-    FOREIGN KEY (idGrupo)
-    REFERENCES Grupos (idGrupo)
+ALTER TABLE Colaboradores ADD CONSTRAINT Colaboradores_Usuarios 
+    FOREIGN KEY (idUsuario)
+    REFERENCES Usuarios (idUsuario)
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE 
 ;
@@ -222,26 +211,6 @@ ALTER TABLE OperacoesAutomaticas ADD CONSTRAINT OperacoesAutomaticas_PeriodoOper
 ALTER TABLE OperacoesAutomaticas ADD CONSTRAINT OperacoesAutomaticas_RegraOperacao 
     FOREIGN KEY (idRegra)
     REFERENCES RegraOperacao (idRegra)
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE 
-;
-
--- Reference:  UsuarioGrupo_Grupo (table: UsuarioGrupo)
-
-
-ALTER TABLE UsuarioGrupo ADD CONSTRAINT UsuarioGrupo_Grupo 
-    FOREIGN KEY (idGrupo)
-    REFERENCES Grupos (idGrupo)
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE 
-;
-
--- Reference:  UsuarioGrupo_Usuarios (table: UsuarioGrupo)
-
-
-ALTER TABLE UsuarioGrupo ADD CONSTRAINT UsuarioGrupo_Usuarios 
-    FOREIGN KEY (idUsuario)
-    REFERENCES Usuarios (idUsuario)
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE 
 ;

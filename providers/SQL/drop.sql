@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2015-05-30 21:44:04.393
+-- Last modification date: 2015-09-09 19:19:29.415
 
 
 
@@ -7,9 +7,9 @@
 
 
 -- foreign keys
-ALTER TABLE CategoriasOcorrencia DROP CONSTRAINT CategoriasOcorrencia_Grupo;
+ALTER TABLE Colaboradores DROP CONSTRAINT Colaboradores_Contas;
 
-ALTER TABLE Contas DROP CONSTRAINT Contas_Grupo;
+ALTER TABLE Colaboradores DROP CONSTRAINT Colaboradores_Usuarios;
 
 ALTER TABLE ItensOcorrencia DROP CONSTRAINT ItensDespesa_Despesas;
 
@@ -27,24 +27,19 @@ ALTER TABLE OperacoesAutomaticas DROP CONSTRAINT OperacoesAutomaticas_PeriodoOpe
 
 ALTER TABLE OperacoesAutomaticas DROP CONSTRAINT OperacoesAutomaticas_RegraOperacao;
 
-ALTER TABLE UsuarioGrupo DROP CONSTRAINT UsuarioGrupo_Grupo;
-
-ALTER TABLE UsuarioGrupo DROP CONSTRAINT UsuarioGrupo_Usuarios;
-
 
 
 
 
 -- tables
 DROP TABLE CategoriasOcorrencia;
+DROP TABLE Colaboradores;
 DROP TABLE Contas;
-DROP TABLE Grupos;
 DROP TABLE ItensOcorrencia;
 DROP TABLE Ocorrencias;
 DROP TABLE OperacoesAutomaticas;
 DROP TABLE PeriodoOperacao;
 DROP TABLE RegraOperacao;
-DROP TABLE UsuarioGrupo;
 DROP TABLE Usuarios;
 
 
