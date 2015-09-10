@@ -5,7 +5,7 @@ var usrCtrl = require('../controllers/usuariosCtrl');
 
 exports.index = function(req, res){
   if(req.session.login){
-    res.render('index', { title: 'Financial Management', login:req.session.login,userName:req.session.login.nome});
+    res.render('index', { title: 'Financial Management', login:req.session.login,userName:req.session.login.nome,active:'home'});
   }else{
     console.log('sem login');
     res.render('login', { title: 'Financial Management'});
@@ -14,7 +14,7 @@ exports.index = function(req, res){
 
 exports.about = function (req,res) {
   if(req.session.login){
-    res.render('about', {login:req.session.login});
+    res.render('about', {login:req.session.login,active:'about'});
   }else{
     res.render('login', { title: 'Financial Management'});
   }
@@ -22,7 +22,7 @@ exports.about = function (req,res) {
 
 exports.contact = function (req,res) {
   if(req.session.login){
-    res.render('contact', {login:req.session.login});
+    res.render('contact', {login:req.session.login,active:'contact'});
   }else{
     res.render('login', { title: 'Financial Management'});
   }
@@ -55,7 +55,7 @@ exports.logout =function(req, res){
 exports.users = function (req,res) {
   if(req.session.login){
     var userList = [{name:'teste',email:'teste@a.b.c'},{name:'master',email:'master@a.b.c'}];
-    res.render('users', {login:req.session.login,userList:userList});
+    res.render('users', {login:req.session.login,userList:userList,active:'users'});
   }else{
     res.render('login', { title: 'Financial Management'});
   }

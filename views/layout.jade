@@ -6,6 +6,7 @@ html
     - } else {
     title= 'Financial Management'
     - }
+    include sugars
     meta(charset='utf-8')
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(rel="stylesheet" href="/bootstrap-3.3.5-dist/css/bootstrap.min.css")
@@ -31,45 +32,22 @@ html
             a(class="navbar-brand",href="#")="Financial Management"
           div(class="collapse navbar-collapse",id="myNavbar")
             ul(class="nav navbar-nav")
-              li(class="active")
-                a(href="/")="Home"
-              li(class="dropdown")
-                a(class="dropdown-toggle",data-toggle="dropdown",href="#")="Book"
-                  span(class="caret")
-                ul(class="dropdown-menu")
-                  li(class="menu-item dropdown dropdown-submenu")
-                    a(href="#",class="dropdown-toggle",data-toggle="dropdown")="Statements"
-                    ul(class="dropdown-menu")
-                      li(class="menu-item ")
-                        a(href="#")="By Account"
-                      li(class="menu-item ")
-                        a(href="#")="By Type"
-                  li(class="menu-item dropdown dropdown-submenu")
-                    a(href="#",class="dropdown-toggle",data-toggle="dropdown")="Summary"
-                    ul(class="dropdown-menu")
-                      li(class="menu-item ")
-                        a(href="#")="By Account"
-                      li(class="menu-item ")
-                        a(href="#")="By Type"
-              li(class="dropdown")
-                a(class="dropdown-toggle" data-toggle="dropdown" href="#")="Settings"
-                  span(class="caret")
-                ul(class="dropdown-menu")
-                  li
-                    a(href="/users")="Users"
-                  li(class="menu-item dropdown dropdown-submenu")
-                    a(href="#" class="dropdown-toggle" data-toggle="dropdown")="Groups"
-                    ul(class="dropdown-menu")
-                      li(class="menu-item ")
-                        a(href="/groups")="Management"
-                      li(class="menu-item ")
-                        a(href="/groups/users")="Group & Users"
-              li
-                a(href="/about")="About"
-              li
-                a(href="/contact")="Contact"
-              li
-                a(href="/logout")="Logout"
+              +menuItem("/","Home")(class=(active==='home' ? 'active' : ''))
+              +navMenu("Book")
+                +dropMenu("Statements")
+                  +menuItem("#","By Account")
+                  +menuItem("#","By Type")
+                +dropMenu("Summary")
+                  +menuItem("#","By Account")
+                  +menuItem("#","By Type")
+              +navMenu("Settings")
+                +menuItem("/users","Users")
+                +dropMenu("Groups")
+                  +menuItem("/groups","Management")
+                  +menuItem("/groups/users","Group & Users")
+              +menuItem("/about","About")(class=(active==='about' ? 'active' : ''))
+              +menuItem("/contact","Contact")(class=(active==='contact' ? 'active' : ''))
+              +menuItem("/logout","Logout")
       - }
       div(class="container")
         block content
