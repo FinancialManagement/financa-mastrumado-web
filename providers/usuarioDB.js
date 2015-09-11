@@ -34,7 +34,7 @@ exports.retrieveUser = function(user){
                             };
                         }//*/
                         info.success= true;
-                        info.msg= "Login com sucesso";
+                        info.msg= "Login successful";
                         info.userData.idUsuario= result.rows[0].idUsuario;
                         info.userData.login= result.rows[0].login;
                         info.userData.nome= result.rows[0].nome;
@@ -42,8 +42,6 @@ exports.retrieveUser = function(user){
                         //info.userData.ultLogin= main.timestamp();
                         info.userData.ultLogin= main.timestamp();
                         info.userData.sisAdmin= result.rows[0].sisAdmin;
-
-                        //res.send('{"msg": "Login com sucesso","ok":true}');
                     }else{
                         info.msg = "Invalid login information.";
                     }
@@ -53,3 +51,24 @@ exports.retrieveUser = function(user){
     }
     return info;
 }
+
+exports.listUsers = function (request, response) {
+  pg.connect(global.conString, function(err, client, done){
+    if(err){
+      console.log('error: ', err);
+      response.send('{"titulo": "Erro conectando: ","erro": "'+err+'"}');
+    }else{
+      client.query("SELECT * FROM usuarios", function(err, result) {
+        console.log("Row count: %d",result.rows.length);  // n
+        var usuarios=[];
+        for(var row in result.rows){
+          usuarios.push({
+            nome:result.rows[row].nome,
+            email:result.rows[row].email
+          });
+        }
+        response.render('users', { title: 'Lista de usuarios',usuarios: usuarios });
+      });
+    }
+  });
+};

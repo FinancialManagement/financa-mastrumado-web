@@ -45,8 +45,6 @@ app.get('/contact',routes.contact);
 app.get('/session', routes.session);
 app.get('/logout', routes.logout);
 app.get('/users', routes.users);
-app.get('/groups', routes.groups);
-app.get('/groups/users', routes.groupsUsers);
 //POSTS - for assync basically
 app.post('/login', routes.login);
 /*

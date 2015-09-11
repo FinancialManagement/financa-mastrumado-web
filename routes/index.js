@@ -60,20 +60,3 @@ exports.users = function (req,res) {
     res.render('login', { title: 'Financial Management'});
   }
 }
-
-exports.groups = function (req,res) {
-  if(req.session.login){
-    var groupList = [{name:'teste',active:true},{name:'master',active:true}];
-    res.render('groups', {login:req.session.login,groupList:groupList});
-  }else{
-    res.render('login', { title: 'Financial Management'});
-  }
-}
-
-exports.groupsUsers = function (req,res) {
-  if(req.session.login){
-    res.render('groupsUsers', {login:req.session.login});
-  }else{
-    res.render('login', { title: 'Financial Management'});
-  }
-}
