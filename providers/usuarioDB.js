@@ -1,8 +1,9 @@
 
 var main = require('../main');
-var pg = require('pg');
+// Loading and initializing the library:
+var pgp = require('pg-promise')(/*options*/);
 
-exports.retrieveUser = function(user){
+exports.retrieveUser = function(user,onReturn){
     var info= {
         success: false,
         msg: "Undefined user",
@@ -15,68 +16,32 @@ exports.retrieveUser = function(user){
             sisAdmin:undefined
         }
     };
-    status = 0;
     if(user){
-        console.log("buscando no DB");
-        var sql = "SELECT * FROM USUARIOS WHERE login = '"+user.login;
-
-        pg.connect(global.conString, function(err, client, done){
-            if(err){
-                info.msg = "Connection error: "+err;
+        var db = pgp(global.conString);
+        db.query("SELECT * FROM USUARIOS WHERE login =$1 and senha=$2", [user.login,user.senha])
+        .then(function (data) {
+            if(data.length>0){
+              info.success= true;
+              info.msg= "Login successful";
+              info.userData = data;
             }else{
-              status=1;
-                client.query(sql, function(err, result) {
-                  if(err){
-                    status=2;
-                    console.log(err);
-                  }else{
-                    status=3;
-                    if(result.rows.length==1){
-                        /*
-                        for(var row in result.rows){
-                            req.session.login={
-                                nome:result.rows[row].nome,
-                                email:result.rows[row].email
-                            };
-                        }//*/
-                        info.success= true;
-                        info.msg= "Login successful";
-                        info.userData.idUsuario= result.rows[0].idUsuario;
-                        info.userData.login= result.rows[0].login;
-                        info.userData.nome= result.rows[0].nome;
-                        info.userData.senha= result.rows[0].senha;
-                        //info.userData.ultLogin= main.timestamp();
-                        info.userData.ultLogin= main.timestamp();
-                        info.userData.sisAdmin= result.rows[0].sisAdmin;
-                    }else{
-                        info.msg = "Invalid login information.";
-                    }
-                  }
-                });
+              info.msg= "Invalid login";
             }
+            onReturn(info);
+        }, function (reason) {
+            console.log(reason); // print error;
         });
+    }else{
+      onReturn(info);
     }
-    console.log('returning:'+status);
-    return info;
 }
 
-exports.listUsers = function (request, response) {
-  pg.connect(global.conString, function(err, client, done){
-    if(err){
-      console.log('error: ', err);
-      response.send('{"titulo": "Erro conectando: ","erro": "'+err+'"}');
-    }else{
-      client.query("SELECT * FROM usuarios", function(err, result) {
-        console.log("Row count: %d",result.rows.length);  // n
-        var usuarios=[];
-        for(var row in result.rows){
-          usuarios.push({
-            nome:result.rows[row].nome,
-            email:result.rows[row].email
-          });
-        }
-        response.render('users', { title: 'Lista de usuarios',usuarios: usuarios });
-      });
-    }
-  });
+exports.listUsers = function (onReturn) {
+    var db = pgp(global.conString);
+    db.query("SELECT * FROM USUARIOS")
+    .then(function (data) {
+        onReturn(data);
+    }, function (reason) {
+        console.log(reason); // print error;
+    });
 };

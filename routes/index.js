@@ -3,48 +3,47 @@
 */
 var usrCtrl = require('../controllers/usuariosCtrl');
 
-exports.index = function(req, res){
+function checkLogin(req,res,cb){
   if(req.session.login){
-    res.render('index', { title: 'Financial Management', login:req.session.login,userName:req.session.login.nome,active:'home'});
+    cb(req,res);
   }else{
     console.log('sem login');
     res.render('login', { title: 'Financial Management'});
   }
 }
+exports.index = function(req, res){
+  checkLogin(req,res,function(){
+    res.render('index', { title: 'Financial Management', login:req.session.login,userName:req.session.login.nome,active:'home'});
+  })
+}
 
 exports.about = function (req,res) {
-  if(req.session.login){
+  checkLogin(req,res,function(){
     res.render('about', {login:req.session.login,active:'about'});
-  }else{
-    res.render('login', { title: 'Financial Management'});
-  }
+  })
 }
 
 exports.contact = function (req,res) {
-  if(req.session.login){
+  checkLogin(req,res,function(){
     res.render('contact', {login:req.session.login,active:'contact'});
-  }else{
-    res.render('login', { title: 'Financial Management'});
-  }
+  })
 }
 
 exports.session = function(req, res){
-  if(req.session.login){
+  checkLogin(req,res,function(){
     console.log('session='+req.session.id);
+    console.log('login=',req.session.login);
     res.send("Nada a fazer por aqui... foi mal");
-  }else{
-    res.render('login', { title: 'Financial Management'});
-  }
+  })
 }
 
 exports.login = function(req,res){
-  var ret = usrCtrl.doLogin({login: req.body.email,senha: req.body.senha});
-
-  if(ret.ok){
-    req.session.login = ret.user;
-  }
-
-  res.send('{"msg": "' + ret.msg + '","ok":' + ret.ok + '}');
+  usrCtrl.doLogin({login: req.body.email,senha: req.body.senha},function(ret){
+    if(ret.success){
+      req.session.login = ret.userData;
+    }
+    res.send('{"msg": "' + ret.msg + '","ok":' + ret.success + '}');
+  });
 }
 
 exports.logout =function(req, res){
@@ -53,10 +52,9 @@ exports.logout =function(req, res){
 }
 
 exports.users = function (req,res) {
-  if(req.session.login){
-    var userList = [{name:'teste',email:'teste@a.b.c'},{name:'master',email:'master@a.b.c'}];
-    res.render('users', {login:req.session.login,userList:userList,active:'users'});
-  }else{
-    res.render('login', { title: 'Financial Management'});
-  }
+  checkLogin(req,res,function(){
+    usrCtrl.listUsers({login: req.session.login},function(userList){
+      res.render('users', {login:req.session.login,userList:userList,active:'users'});
+    });
+  })
 }

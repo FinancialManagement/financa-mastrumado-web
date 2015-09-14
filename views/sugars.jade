@@ -24,3 +24,29 @@ mixin menuItem(href,title,caret)
           block
       else
         a(href=href)=title
+        
+mixin inlineForm(id,method,action)
+  form(id=id, method=method, action=action,class="form-inline")
+    block
+mixin imputEmail(label,id)
+  div(class="form-group")
+    label(for=id)=label
+    input(type="email" class="form-control" id=id)
+    block
+mixin inputText(label,id)
+  div(class="form-group")
+    label(for=id)=label
+    input(type="text" class="form-control" id=id)
+    block
+mixin inputPassword(label,id)
+  div(class="form-group")
+    label(for=id)=label
+    input(type="password" class="form-control" id=id)
+    block
+mixin inputSingleCheck(label,id)
+  div(class="checkbox")
+    label
+      input(type="checkbox",id=id)=label
+    block
+mixin btnDefault(type,id,label)
+  button(type=type,id=id,class="btn btn-default")=label

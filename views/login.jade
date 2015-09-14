@@ -37,6 +37,8 @@ block content
                   if(ret.ok){
                     window.href='\\';
                     window.location.reload();
+                  }else{
+                    alert(ret.msg);
                   }
               },
               error: function (xhr, status, error) {

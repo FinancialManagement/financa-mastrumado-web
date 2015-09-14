@@ -12,6 +12,9 @@ var moment = require('moment');
 
 var server_port = process.env.PORT || 5000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+if(server_port == 5000){
+    process.env.DATABASE_URL = "postgres://lasaro.dumer:nota10@localhost:5432/fmTests"
+}
 global.conString = process.env.DATABASE_URL || "postgres://cxiylvrvzhtyxn:jBJ5csm1ShVg0aIR6LUtgM2CZ-@ec2-54-204-35-248.compute-1.amazonaws.com:5432/dbanfobm6ar6pj";
 var app = express();
 

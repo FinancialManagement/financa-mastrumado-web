@@ -2,41 +2,37 @@
 var usrProv = require('../providers/usuarioDB');
 var main = require('../main');
 
-exports.doLogin = function(user){
+exports.doLogin = function(user,onReturn){
   if(user){
     var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex");
 
-    var retUser=undefined;
-
     if(senhaHash == main.masterPassword()){
-        retUser = {
-            success: true,
-            msg: "Login com sucesso",
-            userData: {
-                idUsuario: 0,
-                login:user.login,
-                nome:"Master Admin",
-                senha: senhaHash,
-                ultLogin: main.timestamp(),
-                sisAdmin:true
-            }
-        };
+      onReturn({
+        success: true,
+        msg: "Login com sucesso",
+        userData: {
+          idUsuario: 0,
+          login:user.login,
+          nome:"Master Admin",
+          senha: senhaHash,
+          ultLogin: main.timestamp(),
+          sisAdmin:true
+        }
+      });
     }else{
-        console.log("buscando no DB");
-        retUser = usrProv.retrieveUser(user);
+      console.log("buscando no DB");
+      user.senha = senhaHash;
+      usrProv.retrieveUser(user,function(retUser){
+        onReturn(retUser);
+      });
     }
-    /*
-    console.log("buscando no DB");
-    var retUser = usrProv.retrieveUser(user);
-
-    if(senhaHash == main.masterPassword()){
-        retUser.userData.idUsuario= 0;
-    }else if(retUser.userData.senha != senhaHash){
-
-    }
-    //*/
-    return {ok: retUser.success,msg:retUser.msg,user:retUser.userData};
   } else{
-    return {ok: false,msg:'Undefined user'};
+    onReturn({success: false,msg:'Undefined user'});
   }
+}
+
+exports.listUsers = function(user,onReturn){
+  usrProv.listUsers(function(retUser){
+    onReturn(retUser);
+  });
 }
