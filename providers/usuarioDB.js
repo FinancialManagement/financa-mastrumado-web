@@ -15,7 +15,7 @@ exports.retrieveUser = function(user){
             sisAdmin:undefined
         }
     };
-
+    status = 0;
     if(user){
         console.log("buscando no DB");
         var sql = "SELECT * FROM USUARIOS WHERE login = '"+user.login;
@@ -24,7 +24,13 @@ exports.retrieveUser = function(user){
             if(err){
                 info.msg = "Connection error: "+err;
             }else{
+              status=1;
                 client.query(sql, function(err, result) {
+                  if(err){
+                    status=2;
+                    console.log(err);
+                  }else{
+                    status=3;
                     if(result.rows.length==1){
                         /*
                         for(var row in result.rows){
@@ -45,10 +51,12 @@ exports.retrieveUser = function(user){
                     }else{
                         info.msg = "Invalid login information.";
                     }
+                  }
                 });
             }
         });
     }
+    console.log('returning:'+status);
     return info;
 }
 
