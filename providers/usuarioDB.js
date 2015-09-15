@@ -3,7 +3,7 @@ var main = require('../main');
 // Loading and initializing the library:
 var pgp = require('pg-promise')(/*options*/);
 
-exports.retrieveUser = function(user,onReturn){
+exports.getLogin = function(user,onReturn){
     var info= {
         success: false,
         msg: "Undefined user",
@@ -45,3 +45,17 @@ exports.listUsers = function (onReturn) {
         console.log(reason); // print error;
     });
 };
+
+exports.getUser = function(userID,onReturn){
+    var db = pgp(global.conString);
+    db.query("SELECT * FROM USUARIOS WHERE idusuario =$1", userID)
+    .then(function (data) {
+        if(data.length>0){
+            onReturn(data[0]);
+        }else{
+            onReturn(undefined);
+        }
+    }, function (reason) {
+        onReturn(undefined,reason);
+    });
+}

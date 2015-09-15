@@ -20,9 +20,8 @@ exports.doLogin = function(user,onReturn){
         }
       });
     }else{
-      console.log("buscando no DB");
       user.senha = senhaHash;
-      usrProv.retrieveUser(user,function(retUser){
+      usrProv.getLogin(user,function(retUser){
         onReturn(retUser);
       });
     }
@@ -33,6 +32,12 @@ exports.doLogin = function(user,onReturn){
 
 exports.listUsers = function(user,onReturn){
   usrProv.listUsers(function(retUser){
+    onReturn(retUser);
+  });
+}
+
+exports.getUser = function(userID,onReturn){
+  usrProv.getUser(userID,function(retUser){
     onReturn(retUser);
   });
 }

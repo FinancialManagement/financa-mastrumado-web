@@ -22,7 +22,9 @@ var app = express();
 app.set('port', server_port);
 app.use(express.cookieParser());
 app.use(session({
-    secret: 'keyboard cat'
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -50,6 +52,7 @@ app.get('/logout', routes.logout);
 app.get('/users', routes.users);
 //POSTS - for assync basically
 app.post('/login', routes.login);
+app.post('/users', routes.users);
 /*
 app.get('/users', user.list);
 app.get('/partidas', partidas.listar);

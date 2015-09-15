@@ -25,28 +25,45 @@ mixin menuItem(href,title,caret)
       else
         a(href=href)=title
         
+mixin verticalForm(id,method,action)
+  form(id=id, method=method, action=action,role="form")
+    block
+mixin horizontalForm(id,method,action)
+  form(id=id, method=method, action=action,class="form-horizontal",role="form")
+    block
 mixin inlineForm(id,method,action)
-  form(id=id, method=method, action=action,class="form-inline")
+  form(id=id, method=method, action=action,class="form-inline",role="form")
     block
-mixin imputEmail(label,id)
+mixin imputEmail(options)
   div(class="form-group")
-    label(for=id)=label
-    input(type="email" class="form-control" id=id)
+    label(for=options.id)=options.label
+    input(type="email" class="form-control" id=options.id placeHolder=options.placeHolder value=options.value)=options.value
     block
-mixin inputText(label,id)
+mixin inputText(options)
   div(class="form-group")
-    label(for=id)=label
-    input(type="text" class="form-control" id=id)
+    label(for=options.id)=options.label
+    input(type="text",class="form-control",id=options.id,placeHolder=options.placeHolder,value=options.value)=options.value
     block
-mixin inputPassword(label,id)
+mixin inputPassword(options)
   div(class="form-group")
-    label(for=id)=label
-    input(type="password" class="form-control" id=id)
+    label(for=options.id)=options.label
+    input(type="password" class="form-control" placeHolder="Enter a password" id=options.id)
     block
-mixin inputSingleCheck(label,id)
+mixin inputSingleCheck(options)
   div(class="checkbox")
     label
-      input(type="checkbox",id=id)=label
+      input(type="checkbox",id=options.id)
+      =options.label
     block
-mixin btnDefault(type,id,label)
-  button(type=type,id=id,class="btn btn-default")=label
+mixin btnDefault(options)
+  button(type=options.type,id=options.id,class="btn btn-default",onClick=options.onClick)&attributes(attributes)=options.label
+mixin btnPrimary(options)
+  button(type=options.type,id=options.id,class="btn btn-primary",onClick=options.onClick)&attributes(attributes)=options.label
+mixin btnSuccess(options)
+  button(type=options.type,id=options.id,class="btn btn-success",onClick=options.onClick)&attributes(attributes)=options.label
+mixin btnInfo(options)
+  button(type=options.type,id=options.id,class="btn btn-info",onClick=options.onClick)&attributes(attributes)=options.label
+mixin btnWarning(options)
+  button(type=options.type,id=options.id,class="btn btn-warning",onClick=options.onClick)&attributes(attributes)=options.label
+mixin btnDanger(options)
+  button(type=options.type,id=options.id,class="btn btn-danger",onClick=options.onClick)&attributes(attributes)=options.label

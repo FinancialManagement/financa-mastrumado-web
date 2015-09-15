@@ -53,8 +53,21 @@ exports.logout =function(req, res){
 
 exports.users = function (req,res) {
   checkLogin(req,res,function(){
-    usrCtrl.listUsers({login: req.session.login},function(userList){
-      res.render('users', {login:req.session.login,userList:userList,active:'users'});
-    });
+    if(req.method=="GET"){
+      usrCtrl.listUsers({login: req.session.login},function(userList){
+        res.render('users', {login:req.session.login,userList:userList,active:'users',mode:'list'});
+      });
+    }else {
+      var mode= 'insert';
+      if(req.body.mode)
+        mode = req.body.mode;
+      if(mode=='insert'){
+        res.render('users', {login:req.session.login,active:'users',mode:mode});
+      }else{
+        usrCtrl.getUser(req.body.userID,function(user){
+          res.render('users', {login:req.session.login,active:'users',mode:mode,user:user});
+        });
+      }
+    }
   })
 }
