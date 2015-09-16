@@ -52,7 +52,10 @@ mixin inputPassword(options)
 mixin inputSingleCheck(options)
   div(class="checkbox")
     label
-      input(type="checkbox",id=options.id)
+      if(options.disabled)
+        input(type="checkbox",id=options.id,disabled)
+      else
+        input(type="checkbox",id=options.id)
       =options.label
     block
 mixin btnDefault(options)

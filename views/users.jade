@@ -11,11 +11,12 @@ block content
                 +inputText({label:"ID",id:"userID",value:user.idusuario})
             +imputEmail({label:"Login",id:"userLogin",placeHolder:"Enter an email",value:user.login})
             +inputText({label:"Name",id:"userName",placeHolder:"Enter a name",value:user.nome})
-            +inputPassword({label:"Password",id:"userPassword",value:user.password})
-            +inputSingleCheck({label:"System Admin",id:"userIsSysAdmin",value:user.sisadmin})
+            +inputPassword({label:"Password",id:"userPassword"})
+            +inputPassword({label:"Retype password",id:"userPassword2"})
+            +inputSingleCheck({label:"System Admin",id:"userIsSysAdmin",value:user.sisadmin,disabled:'disabled'})
             +inputText({label:"Last login",id:"userUltLogin",value:user.ultlogin})
-            +btnInfo({type:'submit',label:'Cancel',id:'cancel',onClick:"post('/users',{mode:'list'},'get');"})
-            +btnSuccess({type:'submit',label:'Save',id:'save'})
+            +btnInfo({type:'button',label:'Cancel',id:'cancel',onClick:"post('/users',{mode:'list'},'get');"})
+            +btnSuccess({type:'button',label:'Save',id:'save'})
         script.
             function edit(userID){
                 post('/users',{mode:'edit',userID:userID})
