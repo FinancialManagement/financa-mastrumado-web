@@ -1,7 +1,6 @@
 extends layout
 
 block content
-    - console.log('user(jade)',user)
     - if(user==undefined){user={}}
     h1 Users 
         small=(mode==='insert' ? 'Adding user' : (mode==='edit' ? 'Editting user' : 'All users'))
@@ -11,18 +10,52 @@ block content
                 +inputText({label:"ID",id:"userID",value:user.idusuario})
             +imputEmail({label:"Login",id:"userLogin",placeHolder:"Enter an email",value:user.login})
             +inputText({label:"Name",id:"userName",placeHolder:"Enter a name",value:user.nome})
-            +inputPassword({label:"Password",id:"userPassword"})
-            +inputPassword({label:"Retype password",id:"userPassword2"})
+            +inputPassword({label:"Password",id:"userPassword",disabled:(user.sisadmin?'disabled':undefined)})
+            +inputPassword({label:"Retype password",id:"userPassword2",disabled:(user.sisadmin?'disabled':undefined)})
             +inputSingleCheck({label:"System Admin",id:"userIsSysAdmin",value:user.sisadmin,disabled:'disabled'})
             +inputText({label:"Last login",id:"userUltLogin",value:user.ultlogin})
-            +btnInfo({type:'button',label:'Cancel',id:'cancel',onClick:"post('/users',{mode:'list'},'get');"})
-            +btnSuccess({type:'button',label:'Save',id:'save'})
+            +btnInfo({type:'button',label:'Cancel',id:'cancel',onClick:"toList();"})
+            +btnSuccess({type:'button',label:'Save',id:'save',onClick:"saveUser();"})
         script.
-            function edit(userID){
-                post('/users',{mode:'edit',userID:userID})
+            function toList(){
+                post('/users',{mode:'list'},'get');
             }
-            function newUser(){
-                post('/users',{mode:'insert'})
+            
+            function saveUser(){
+                if($('#userPassword').val() != $('#userPassword2').val()){
+                    alert("Passwords don't match");
+                    return;
+                }
+                var packUser = {mode: 'save',
+                                new: true,
+                                uLogin: $('#userLogin').val(),
+                                uNome: $('#userName').val(),
+                                uSenha: $('#userPassword').val(),
+                                uSisAdmin: $('#userIsSysAdmin').val()
+                };
+                if($('#userID').length > 0){
+                    packUser.new = false;
+                    packUser.uID = $('#userID').val();
+                }
+                console.log(packUser);
+                /*
+                $.ajax({
+                        type: 'POST',
+                        url: '/users',
+                        data: packUser,
+                        success: function (data) {
+                            var ret = jQuery.parseJSON(data);
+                            if(ret.ok){                            
+                                toList();
+                            }else{
+                                alert(ret.msg);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Error: ' + error.message);
+                            alert('Connection Error.');
+                        }
+                });//*/
             }
             $(document).ready(function() {
               console.log("ready!");              
@@ -38,17 +71,19 @@ block content
                         th System Admin
                         th Last login
                 tbody
-                    each user, u in userList
-                        tr
-                            td #{user.idusuario}
-                            td #{user.login}
-                            td #{user.nome}
-                            td #{user.sisadmin}
-                            td #{user.ultlogin}
-                            td
-                                +btnPrimary({type:'button',label:'Edit',onClick:"edit("+user.idusuario+");"})
-                            td
-                                +btnDanger({type:'button',label:'Delete'})(class=(user.sisadmin? 'disabled' : ''))
+                    - if(userList){
+                        each user, u in userList
+                            tr
+                                td #{user.idusuario}
+                                td #{user.login}
+                                td #{user.nome}
+                                td #{user.sisadmin}
+                                td #{user.ultlogin}
+                                td
+                                    +btnPrimary({type:'button',label:'Edit',onClick:"edit("+user.idusuario+");"})
+                                td
+                                    +btnDanger({type:'button',label:'Delete'})(class=(user.sisadmin? 'disabled' : ''))
+                    - }
         +btnSuccess({label:"Create user",type:"button",onClick:"newUser();"})
         script.
             function edit(userID){

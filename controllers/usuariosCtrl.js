@@ -1,10 +1,10 @@
 
-var usrProv = require('../providers/usuarioDB');
-var main = require('../main');
+var usrProv = require('../providers/usuarioDB')
+var main = require('../main')
 
 exports.doLogin = function(user,onReturn){
   if(user){
-    var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex");
+    var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex")
 
     if(senhaHash == main.masterPassword()){
       onReturn({
@@ -18,26 +18,32 @@ exports.doLogin = function(user,onReturn){
           ultLogin: main.timestamp(),
           sisAdmin:true
         }
-      });
+      })
     }else{
-      user.senha = senhaHash;
+      user.senha = senhaHash
       usrProv.getLogin(user,function(retUser){
-        onReturn(retUser);
-      });
+        onReturn(retUser)
+      })
     }
   } else{
-    onReturn({success: false,msg:'Undefined user'});
+    onReturn({success: false,msg:'Undefined user'})
   }
 }
 
-exports.listUsers = function(user,onReturn){
-  usrProv.listUsers(function(retUser){
-    onReturn(retUser);
-  });
+exports.listUsers = function(onReturn){
+  usrProv.listUsers(function(usersList,error){
+    var message = undefined
+    if(error)
+      message = {type:'danger',title:'Error',msg:error}
+    onReturn(usersList,message)
+  })
 }
 
 exports.getUser = function(userID,onReturn){
-  usrProv.getUser(userID,function(retUser){
-    onReturn(retUser);
-  });
+  usrProv.getUser(userID,function(retUser,error){
+    var message = undefined
+    if(error)
+      message = {type:'danger',title:'Error',msg:error}
+    onReturn(retUser,message)
+  })
 }
