@@ -7,6 +7,7 @@ html
     title= 'Financial Management'
     - }
     include sugars
+    include formattingSugars
     meta(charset='utf-8')
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(rel="stylesheet" href="/bootstrap-3.3.5-dist/css/bootstrap.min.css")
@@ -47,7 +48,7 @@ html
       script(src='/js/menu.js')
       nav(class="navbar navbar-default")
         div(class="container-fluid")
-          +navBar("myNavbar","Financial Management")
+          +navBar("myNavbar","Financial Management",true)
               +menuItem("/","Home")(class=(active==='home' ? 'active' : ''))
               +navMenu("Book")
                 +dropMenu("Statements")
@@ -60,11 +61,9 @@ html
                 +menuItem("/users","Users")
                 +menuItem("/accounts","Accounts")
               +menuItem("/about","About")(class=(active==='about' ? 'active' : ''))
-              +menuItem("/contact","Contact")(class=(active==='contact' ? 'active' : ''))
-              +menuItem("/logout","Logout")
+              +menuItem("/contact","Contact")(class=(active==='contact' ? 'active' : ''))              
       - }
-      div(class="container")
-        - console.log('msg',msgs)
+      div(class="container")        
         - if(msgs && msgs.length > 0) {
           each msg in msgs
             if msg

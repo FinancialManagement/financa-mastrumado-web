@@ -3,7 +3,7 @@ mixin alert(options)
     a(href="#",class="close",data-dismiss="alert",aria-label="close") &times;
     strong=options.title + "! "
     = options.msg
-mixin navBar(navID,tittle)
+mixin navBar(navID,tittle,logout)
   div(class="navbar-header")
     button(type="button",class="navbar-toggle",data-toggle="collapse",data-target="#"+navID)
       span(class="icon-bar")
@@ -13,6 +13,10 @@ mixin navBar(navID,tittle)
   div(class="collapse navbar-collapse",id=navID)
     ul(class="nav navbar-nav")
       block
+    if logout
+      p(class="navbar-text navbar-right")
+        a(href="/logout")
+          span(class="glyphicon glyphicon-log-out",aria-hidden="true")
 mixin navMenu(title)
   +menuItem("#",title,true)(class="dropdown")
     block

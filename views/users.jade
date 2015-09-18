@@ -77,12 +77,13 @@ block content
                                 td #{user.idusuario}
                                 td #{user.login}
                                 td #{user.nome}
-                                td #{user.sisadmin}
+                                td 
+                                    +boolToStr(user.sisadmin)
                                 td #{user.ultlogin}
                                 td
-                                    +btnPrimary({type:'button',label:'Edit',onClick:"edit("+user.idusuario+");"})
+                                    +btnPrimary({type:'button',onClick:"edit("+user.idusuario+");"})(class="glyphicon glyphicon-edit")
                                 td
-                                    +btnDanger({type:'button',label:'Delete'})(class=(user.sisadmin? 'disabled' : ''))
+                                    +btnDanger({type:'button'})(class="glyphicon glyphicon-trash "+(user.sisadmin? 'disabled' : ''))
                     - }
         +btnSuccess({label:"Create user",type:"button",onClick:"newUser();"})
         script.

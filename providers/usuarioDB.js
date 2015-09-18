@@ -17,9 +17,16 @@ exports.getLogin = function(user,onReturn){
     }
     if(user){
         var db = myDB.newConnection()
-        db.query("SELECT * FROM USUARIOS WHERE login =$1 and senha=$2", [user.login,user.senha])
+        db.tx(function(t) {
+            // t = this;
+            return t.one("SELECT idusuario,login,nome,senha,ultlogin,sisadmin FROM USUARIOS WHERE login =$1 and senha=$2", [user.login,user.senha])
+                .then(function (data) {
+                    t.any("update usuarios set ultLogin=current_timestamp where idUsuario=$1", data.idusuario);
+                    return data;
+                });
+        })
         .then(function (data) {
-            if(data.length>0){
+            if(data){
               info.success= true
               info.msg= "Login successful"
               info.userData = data
@@ -39,7 +46,7 @@ exports.getLogin = function(user,onReturn){
 
 exports.listUsers = function (onReturn) {
     var db = myDB.newConnection()
-    db.query("SELECT * FROM USUARIOS")
+    db.query("SELECT idusuario,login,nome,senha,sisadmin,to_char(ultlogin, 'DD/MM/YYYY HH24:MI:SS') as ultlogin FROM USUARIOS")
     .then(function (data) {
         onReturn(data)
     })
