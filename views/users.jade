@@ -7,13 +7,14 @@ block content
     - if(mode!='list') {
         +verticalForm("formUsers","POST","/users")            
             - if(mode=='edit')
-                +inputText({label:"ID",id:"userID",value:user.idusuario})
+                +inputText({label:"ID",id:"userID",value:user.idusuario,disabled:'disabled'})
             +imputEmail({label:"Login",id:"userLogin",placeHolder:"Enter an email",value:user.login})
             +inputText({label:"Name",id:"userName",placeHolder:"Enter a name",value:user.nome})
             +inputPassword({label:"Password",id:"userPassword",disabled:(user.sisadmin?'disabled':undefined)})
             +inputPassword({label:"Retype password",id:"userPassword2",disabled:(user.sisadmin?'disabled':undefined)})
-            +inputSingleCheck({label:"System Admin",id:"userIsSysAdmin",value:user.sisadmin,disabled:'disabled'})
-            +inputText({label:"Last login",id:"userUltLogin",value:user.ultlogin})
+            +inputSingleCheck({label:"System Admin",id:"userIsSysAdmin",value:user.sisadmin,disabled:(mode=='edit'?'disabled':undefined)})
+            - if(mode=='edit')
+                +inputText({label:"Last login",id:"userUltLogin",value:moment(user.ultlogin).format("DD/MM/YYYY HH:mm:ss"),disabled:'disabled'})
             +btnInfo({type:'button',label:'Cancel',id:'cancel',onClick:"toList();"})
             +btnSuccess({type:'button',label:'Save',id:'save',onClick:"saveUser();"})
         script.
@@ -26,19 +27,16 @@ block content
                     alert("Passwords don't match");
                     return;
                 }
-                var packUser = {mode: 'save',
-                                new: true,
-                                uLogin: $('#userLogin').val(),
-                                uNome: $('#userName').val(),
-                                uSenha: $('#userPassword').val(),
-                                uSisAdmin: $('#userIsSysAdmin').val()
-                };
+                var packUser = {mode: 'save',userData:{}};
                 if($('#userID').length > 0){
-                    packUser.new = false;
-                    packUser.uID = $('#userID').val();
+                    packUser.userData.idusuario = $('#userID').val();
                 }
+                packUser.userData.login = $('#userLogin').val();
+                packUser.userData.nome = $('#userName').val();
+                packUser.userData.sisadmin = $('#userIsSysAdmin').is(':checked');
+                packUser.userData.senha = $('#userPassword').val();
                 console.log(packUser);
-                /*
+                //*
                 $.ajax({
                         type: 'POST',
                         url: '/users',
@@ -83,15 +81,18 @@ block content
                                 td
                                     +btnPrimary({type:'button',onClick:"edit("+user.idusuario+");"})(class="glyphicon glyphicon-edit")
                                 td
-                                    +btnDanger({type:'button'})(class="glyphicon glyphicon-trash "+(user.sisadmin? 'disabled' : ''))
+                                    +btnDanger({type:'button',onClick:"removeUser("+user.idusuario+");"})(class="glyphicon glyphicon-trash "+(user.sisadmin? 'disabled' : ''))
                     - }
         +btnSuccess({label:"Create user",type:"button",onClick:"newUser();"})
         script.
             function edit(userID){
-                post('/users',{mode:'edit',userID:userID})
+                post('/users',{mode:'edit',userID:userID});
+            }
+            function removeUser(userID){
+                post('/users',{mode:'delete',userID:userID});
             }
             function newUser(){
-                post('/users',{mode:'insert'})
+                post('/users',{mode:'insert'});
             }
             $(document).ready(function() {
               console.log("ready!");              

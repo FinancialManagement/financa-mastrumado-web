@@ -1,10 +1,15 @@
 
 var usrProv = require('../providers/usuarioDB')
 var main = require('../main')
+var crypto = require('crypto')
+
+function hashPass(pass){
+    return crypto.createHash('md5').update(pass).digest("hex")
+}
 
 exports.doLogin = function(user,onReturn){
-  if(user){
-    var senhaHash = require('crypto').createHash('md5').update(user.senha).digest("hex")
+    console.log('user..',user);
+    var senhaHash = hashPass(user.senha)
 
     if(senhaHash == main.masterPassword()){
       onReturn({
@@ -25,9 +30,6 @@ exports.doLogin = function(user,onReturn){
         onReturn(retUser)
       })
     }
-  } else{
-    onReturn({success: false,msg:'Undefined user'})
-  }
 }
 
 exports.listUsers = function(onReturn){
@@ -46,4 +48,20 @@ exports.getUser = function(userID,onReturn){
       message = {type:'danger',title:'Error',msg:error}
     onReturn(retUser,message)
   })
+}
+
+exports.saveUser = function(userData,onReturn){
+    var valid = true
+    var msg
+    console.log('sisadmin',userData.sisadmin);
+    if(!userData.sisadmin){
+        userData.senha =hashPass(userData.senha)
+    }else if (userData.senha) {
+        valid = false
+        msg = "Can't change the password of a System Admin"
+    }
+    if (valid)
+        usrProv.saveUser(userData,onReturn)
+    else
+        onReturn(msg,valid)
 }

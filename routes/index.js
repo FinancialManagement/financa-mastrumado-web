@@ -67,6 +67,10 @@ exports.users = function (req,res) {
         usrCtrl.getUser(req.body.userID,function(user,err){
           res.render('users', {login:req.session.login,msgs:[err],active:'users',mode:mode,user:user})
         })
+    }else if(mode=='save'){
+        usrCtrl.saveUser(req.body.userData,function(msg,success){
+          res.send('{"msg": "'+msg+'","ok":'+success+'}')
+        })
       }else{
         res.send('{"msg": "Invalid Request","ok":false}')
       }

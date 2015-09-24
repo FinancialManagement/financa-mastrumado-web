@@ -46,7 +46,7 @@ exports.getLogin = function(user,onReturn){
 
 exports.listUsers = function (onReturn) {
     var db = myDB.newConnection()
-    db.query("SELECT idusuario,login,nome,senha,sisadmin,to_char(ultlogin, 'DD/MM/YYYY HH24:MI:SS') as ultlogin FROM USUARIOS")
+    db.query("SELECT idusuario,login,nome,senha,sisadmin,to_char(ultlogin, 'DD/MM/YYYY HH24:MI:SS') as ultlogin FROM USUARIOS ORDER BY idusuario")
     .then(function (data) {
         onReturn(data)
     })
@@ -57,7 +57,7 @@ exports.listUsers = function (onReturn) {
 
 exports.getUser = function(userID,onReturn){
     var db = myDB.newConnection()
-    db.query("SELECT * FROM USUARIOS WHERE idusuario =$1", userID)
+    db.query("SELECT idusuario,login,nome,senha,ultlogin,sisadmin FROM USUARIOS WHERE idusuario =$1", userID)
     .then(function (data) {
         console.log('data.length',data.length);
         if(data.length>0){
@@ -68,5 +68,21 @@ exports.getUser = function(userID,onReturn){
     })
     .catch(function (reason) {
         onReturn(undefined,reason.message)
+    })
+}
+
+exports.saveUser = function(userData,onReturn){
+    var sqlCommand = "INSERT INTO usuarios(login, nome, senha, sisadmin) VALUES ('${login^}', '${nome^}', '${senha^}', ${sisadmin^});"
+    if(userData.idusuario)
+        sqlCommand = "UPDATE usuarios SET login='${login^}', nome='${nome^}'"+(userData.sisadmin?"":", senha='${senha^}'")+" WHERE idusuario = ${idusuario^};"
+    var db = myDB.newConnection()
+    db.none(sqlCommand, userData)
+    .then(function (data) {
+        onReturn('Saved successful',true)
+    })
+    .catch(function (reason) {
+        console.log('reason',reason) // print error
+        console.log('reason.message',reason.message.replace(/"/g,'\\"')) // print error
+        onReturn(reason.message.replace(/"/g,'\\"'),false)
     })
 }
