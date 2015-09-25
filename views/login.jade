@@ -1,46 +1,46 @@
 extends layout
 
 block content
-  h1.welcome.title= title
-  div.welcome
-    p Welcome to #{title}
-    +verticalForm("formlogin","POST","/")
-      +imputEmail({label:"Login",id:"email",placeHolder:"Enter an email"})
-      +inputPassword({label:"Password",id:"senha"})
-      //+btnInfo('button','Sign up','registrese')
-      +btnSuccess({type:'button',label:'Sign in',id:'login'})
-  script.
-    function login(){
-      $.ajax({
-              type: 'POST',
-              url: '/login',
-              data: { email: $('#email').val(),
-                      senha: $('#senha').val()},
-              success: function (data) {
-                  var ret = jQuery.parseJSON(data);
-                  if(ret.ok){
-                    window.href='\\';
-                    window.location.reload();
-                  }else{
-                    alert(ret.msg);
-                  }
-              },
-              error: function (xhr, status, error) {
-                  console.log('Error: ' + error.message);
-                  alert('Error connecting to server.');
-              }
-      });
-    }
-    $(document).ready(function() {
-      console.log("ready!");
-      $("#login").click(function () {
-        $.blockUI({message:"<h1>Connecting...</h1>"}); 
-        console.log("teste login");
-        login();
-      });
-      $("#registrese").click(function () {
-        console.log("teste registro");
-        $('#formlogin').attr('action','registro');
-        $('#formlogin').submit();
-      });
-    });
+    h1.welcome.title= title
+    div.welcome
+        p Welcome to #{title}
+        +verticalForm("formlogin","POST","/")
+            +imputEmail({label:"Login",id:"email",placeHolder:"Enter an email"})
+            +inputPassword({label:"Password",id:"senha"})
+            //+btnInfo('button','Sign up','registrese')
+            +btnSuccess({type:'button',label:'Sign in',id:'login'})
+    script.
+        function login(){
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: { email: $('#email').val(),
+                        senha: $('#senha').val()},
+                success: function (data) {
+                    var ret = jQuery.parseJSON(data);
+                    if(ret.ok){
+                        window.href='\\';
+                        window.location.reload();
+                    }else{
+                        alert(ret.msg);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error: ' + error.message);
+                    alert('Error connecting to server.');
+                }
+            });
+        }
+        $(document).ready(function() {
+            console.log("ready!");
+            $("#login").click(function () {
+                $.blockUI({message:"<h1>Connecting...</h1>"}); 
+                console.log("teste login");
+                login();
+            });
+            $("#registrese").click(function () {
+                console.log("teste registro");
+                $('#formlogin').attr('action','registro');
+                $('#formlogin').submit();
+            });
+        });

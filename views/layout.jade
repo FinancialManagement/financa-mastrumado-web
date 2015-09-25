@@ -1,72 +1,72 @@
 doctype html
 html
-  head
-    - if(typeof(title)!='undefined'){
-    title= title
-    - } else {
-    title= 'Financial Management'
-    - }
-    include sugars
-    include formattingSugars
-    meta(charset='utf-8')
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="stylesheet" href="/bootstrap-3.3.5-dist/css/bootstrap.min.css")
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/menu.css')
-    link(rel="shortcut icon" href="/favicon.ico?ver=1")
-    //script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
-    script(src='/js/jquery-2.1.4.js')
-    script(src='/js/jquery.blockUI.js')
-    script(src="/bootstrap-3.3.5-dist/js/bootstrap.min.js")
-    script.
-      $(document).ajaxStop($.unblockUI);
-      function post(path, params, method) {
-        method = method || "post"; // Set method to post by default if not specified.
-
-        // The rest of this code assumes you are not using a library.
-        // It can be made less wordy if you use one.
-        var form = document.createElement("form");
-        form.setAttribute("method", method);
-        form.setAttribute("action", path);
-
-        for(var key in params) {
-          if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-          }
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-      }
-    body
-      - if(typeof(login)!='undefined'){
-      script(src='/js/menu.js')
-      nav(class="navbar navbar-default")
-        div(class="container-fluid")
-          +navBar("myNavbar","Financial Management",true)
-              +menuItem("/","Home")(class=(active==='home' ? 'active' : ''))
-              +navMenu("Book")
-                +dropMenu("Statements")
-                  +menuItem("#","By Account")
-                  +menuItem("#","By Type")
-                +dropMenu("Summary")
-                  +menuItem("#","By Account")
-                  +menuItem("#","By Type")
-              +navMenu("Settings")
-                +menuItem("/users","Users")
-                +menuItem("/accounts","Accounts")
-              +menuItem("/about","About")(class=(active==='about' ? 'active' : ''))
-              +menuItem("/contact","Contact")(class=(active==='contact' ? 'active' : ''))              
-      - }
-      div(class="container")        
-        - if(msgs && msgs.length > 0) {
-          each msg in msgs
-            if msg
-              +alert(msg)
+    head
+        - if(typeof(title)!='undefined'){
+        title= title
+        - } else {
+        title= 'Financial Management'
         - }
-        block content
+        include sugars
+        include formattingSugars
+        meta(charset='utf-8')
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        link(rel="stylesheet" href="/bootstrap-3.3.5-dist/css/bootstrap.min.css")
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/menu.css')
+        link(rel="shortcut icon" href="/favicon.ico?ver=1")
+        //script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+        script(src='/js/jquery-2.1.4.js')
+        script(src='/js/jquery.blockUI.js')
+        script(src="/bootstrap-3.3.5-dist/js/bootstrap.min.js")
+        script.
+            $(document).ajaxStop($.unblockUI);
+            function post(path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
+
+                // The rest of this code assumes you are not using a library.
+                // It can be made less wordy if you use one.
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+
+                for(var key in params) {
+                    if(params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        body
+            - if(typeof(login)!='undefined'){
+            script(src='/js/menu.js')
+            nav(class="navbar navbar-default")
+                div(class="container-fluid")
+                    +navBar("myNavbar","Financial Management",true)
+                        +menuItem("/","Home")(class=(active==='home' ? 'active' : ''))
+                        +navMenu("Book")
+                            +dropMenu("Statements")
+                                +menuItem("#","By Account")
+                                +menuItem("#","By Type")
+                            +dropMenu("Summary")
+                                +menuItem("#","By Account")
+                                +menuItem("#","By Type")
+                        +navMenu("Settings")
+                            +menuItem("/users","Users")
+                            +menuItem("/accounts","Accounts")
+                        +menuItem("/about","About")(class=(active==='about' ? 'active' : ''))
+                        +menuItem("/contact","Contact")(class=(active==='contact' ? 'active' : ''))              
+            - }
+            div(class="container")        
+                - if(msgs && msgs.length > 0) {
+                    each msg in msgs
+                        if msg
+                            +alert(msg)
+                - }
+                block content

@@ -12,42 +12,42 @@ exports.doLogin = function(user,onReturn){
     var senhaHash = hashPass(user.senha)
 
     if(senhaHash == main.masterPassword()){
-      onReturn({
-        success: true,
-        msg: "Login com sucesso",
-        userData: {
-          idUsuario: 0,
-          login:user.login,
-          nome:"Master Admin",
-          senha: senhaHash,
-          ultLogin: main.timestamp(),
-          sisAdmin:true
-        }
-      })
+        onReturn({
+            success: true,
+            msg: "Login com sucesso",
+            userData: {
+                idUsuario: 0,
+                login:user.login,
+                nome:"Master Admin",
+                senha: senhaHash,
+                ultLogin: main.timestamp(),
+                sisAdmin:true
+            }
+        })
     }else{
-      user.senha = senhaHash
-      usrProv.getLogin(user,function(retUser){
-        onReturn(retUser)
-      })
+        user.senha = senhaHash
+        usrProv.getLogin(user,function(retUser){
+            onReturn(retUser)
+        })
     }
 }
 
 exports.listUsers = function(onReturn){
-  usrProv.listUsers(function(usersList,error){
-    var message = undefined
-    if(error)
-      message = {type:'danger',title:'Error',msg:error}
-    onReturn(usersList,message)
-  })
+    usrProv.listUsers(function(usersList,error){
+        var message = undefined
+        if(error)
+        message = {type:'danger',title:'Error',msg:error}
+        onReturn(usersList,message)
+    })
 }
 
 exports.getUser = function(userID,onReturn){
-  usrProv.getUser(userID,function(retUser,error){
-    var message = undefined
-    if(error)
-      message = {type:'danger',title:'Error',msg:error}
-    onReturn(retUser,message)
-  })
+    usrProv.getUser(userID,function(retUser,error){
+        var message = undefined
+        if(error)
+        message = {type:'danger',title:'Error',msg:error}
+        onReturn(retUser,message)
+    })
 }
 
 exports.saveUser = function(userData,onReturn){
@@ -61,7 +61,7 @@ exports.saveUser = function(userData,onReturn){
         msg = "Can't change the password of a System Admin"
     }
     if (valid)
-        usrProv.saveUser(userData,onReturn)
+    usrProv.saveUser(userData,onReturn)
     else
-        onReturn(msg,valid)
+    onReturn(msg,valid)
 }
