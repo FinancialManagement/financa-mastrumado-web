@@ -8,7 +8,6 @@ function hashPass(pass){
 }
 
 exports.doLogin = function(user,onReturn){
-    console.log('user..',user);
     var senhaHash = hashPass(user.senha)
 
     if(senhaHash == main.masterPassword()){
@@ -35,8 +34,7 @@ exports.doLogin = function(user,onReturn){
 exports.listUsers = function(onReturn){
     usrProv.listUsers(function(usersList,error){
         var message = undefined
-        if(error)
-        message = {type:'danger',title:'Error',msg:error}
+        if(error) message = {type:'danger',title:'Error',msg:error}
         onReturn(usersList,message)
     })
 }
@@ -44,8 +42,7 @@ exports.listUsers = function(onReturn){
 exports.getUser = function(userID,onReturn){
     usrProv.getUser(userID,function(retUser,error){
         var message = undefined
-        if(error)
-        message = {type:'danger',title:'Error',msg:error}
+        if(error) message = {type:'danger',title:'Error',msg:error}
         onReturn(retUser,message)
     })
 }
@@ -56,12 +53,13 @@ exports.saveUser = function(userData,onReturn){
     console.log('sisadmin',userData.sisadmin);
     if(!userData.sisadmin){
         userData.senha =hashPass(userData.senha)
-    }else if (userData.senha) {
+    }
+    if (userData.senha && userData.sisadmin === true && userData.idusuario !== undefined) {
         valid = false
         msg = "Can't change the password of a System Admin"
     }
     if (valid)
-    usrProv.saveUser(userData,onReturn)
+        usrProv.saveUser(userData,onReturn)
     else
-    onReturn(msg,valid)
+        onReturn(msg,valid)
 }

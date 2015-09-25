@@ -5,43 +5,31 @@ var myDB = require('./myDB')
 exports.getLogin = function(user,onReturn){
     var info= {
         success: false,
-        msg: "Undefined user",
-        userData: {
-            idUsuario: undefined,
-            login:undefined,
-            nome:undefined,
-            senha: undefined,
-            ultLogin: main.timestamp(),
-            sisAdmin:undefined
+        msg: "Undefined user"
+    }
+    var db = myDB.newConnection()
+    db.tx(function(t) {
+        // t = this;
+        return t.one("SELECT idusuario,login,nome,senha,ultlogin,sisadmin FROM USUARIOS WHERE login =$1 and senha=$2", [user.login,user.senha])
+            .then(function (data) {
+                t.any("update usuarios set ultLogin=current_timestamp where idUsuario=$1", data.idusuario);
+                return data;
+            }).catch(function(){return undefined})
+    })
+    .then(function (data) {
+        if(data){
+          info.success= true
+          info.msg= "Login successful"
+          info.userData = data
+        }else{
+          info.msg= "Invalid login"
         }
-    }
-    if(user){
-        var db = myDB.newConnection()
-        db.tx(function(t) {
-            // t = this;
-            return t.one("SELECT idusuario,login,nome,senha,ultlogin,sisadmin FROM USUARIOS WHERE login =$1 and senha=$2", [user.login,user.senha])
-                .then(function (data) {
-                    t.any("update usuarios set ultLogin=current_timestamp where idUsuario=$1", data.idusuario);
-                    return data;
-                });
-        })
-        .then(function (data) {
-            if(data){
-              info.success= true
-              info.msg= "Login successful"
-              info.userData = data
-            }else{
-              info.msg= "Invalid login"
-            }
-            onReturn(info)
-        })
-        .catch(function (reason) {
-            console.log('reason',reason) // print error
-            onReturn(info,reason.message)
-        })
-    }else{
-      onReturn(info)
-    }
+        onReturn(info)
+    })
+    .catch(function (reason) {
+        console.log('catch-reason',reason) // print error
+        onReturn(info,reason.message)
+    })
 }
 
 exports.listUsers = function (onReturn) {
@@ -59,7 +47,6 @@ exports.getUser = function(userID,onReturn){
     var db = myDB.newConnection()
     db.query("SELECT idusuario,login,nome,senha,ultlogin,sisadmin FROM USUARIOS WHERE idusuario =$1", userID)
     .then(function (data) {
-        console.log('data.length',data.length);
         if(data.length>0){
             onReturn(data[0])
         }else{
