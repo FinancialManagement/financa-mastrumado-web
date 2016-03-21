@@ -1,72 +1,86 @@
-mixin navBar(navID,tittle)
-  div(class="navbar-header")
-    button(type="button",class="navbar-toggle",data-toggle="collapse",data-target="#"+navID)
-      span(class="icon-bar")
-      span(class="icon-bar")
-      span(class="icon-bar")
-    a(class="navbar-brand",href="#")=tittle
-  div(class="collapse navbar-collapse",id=navID)
-    ul(class="nav navbar-nav")
-      block
+mixin alert(options)
+    div(class=("alert alert-"+options.type+" fade in"))
+        a(href="#",class="close",data-dismiss="alert",aria-label="close") &times;
+        strong=options.title + "! "
+        = options.msg
+mixin navBar(navID,tittle,logout)
+    div(class="navbar-header")
+        button(type="button",class="navbar-toggle",data-toggle="collapse",data-target="#"+navID)
+            span(class="icon-bar")
+            span(class="icon-bar")
+            span(class="icon-bar")
+        a(class="navbar-brand",href="#")=tittle
+    div(class="collapse navbar-collapse",id=navID)
+        ul(class="nav navbar-nav")
+            block
+        if logout
+            p(class="navbar-text navbar-right")
+                a(href="/logout")
+                    span(class="glyphicon glyphicon-log-out",aria-hidden="true")
 mixin navMenu(title)
-  +menuItem("#",title,true)(class="dropdown")
-    block
+    +menuItem("#",title,true)(class="dropdown")
+        block
 mixin dropMenu(title)
-  +menuItem("#",title)(class="dropdown dropdown-submenu")
-    block
+    +menuItem("#",title)(class="dropdown dropdown-submenu")
+        block
 mixin menuItem(href,title,caret)
     li(class="menu-item ")&attributes(attributes)
-      if block
-        a(href=href class="dropdown-toggle" data-toggle="dropdown")=title
-          if caret
-            span(class="caret")
-        ul(class="dropdown-menu")
-          block
-      else
-        a(href=href)=title
+        if block
+            a(href=href class="dropdown-toggle" data-toggle="dropdown")=title
+                if caret
+                    span(class="caret")
+            ul(class="dropdown-menu")
+                block
+        else
+            a(href=href)=title
         
 mixin verticalForm(id,method,action)
-  form(id=id, method=method, action=action,role="form")
-    block
+    form(id=id, method=method, action=action,role="form")
+        block
 mixin horizontalForm(id,method,action)
-  form(id=id, method=method, action=action,class="form-horizontal",role="form")
-    block
+    form(id=id, method=method, action=action,class="form-horizontal",role="form")
+        block
 mixin inlineForm(id,method,action)
-  form(id=id, method=method, action=action,class="form-inline",role="form")
-    block
+    form(id=id, method=method, action=action,class="form-inline",role="form")
+        block
 mixin imputEmail(options)
-  div(class="form-group")
-    label(for=options.id)=options.label
-    input(type="email" class="form-control" id=options.id placeHolder=options.placeHolder value=options.value)=options.value
-    block
+    div(class="form-group")
+        label(for=options.id)=options.label
+        input(type="email" class="form-control" id=options.id placeHolder=options.placeHolder value=options.value,disabled=options.disabled==='disabled')=options.value
+        block
 mixin inputText(options)
-  div(class="form-group")
-    label(for=options.id)=options.label
-    input(type="text",class="form-control",id=options.id,placeHolder=options.placeHolder,value=options.value)=options.value
-    block
+    div(class="form-group")
+        label(for=options.id)=options.label
+        input(type="text",class="form-control",id=options.id,placeHolder=options.placeHolder,value=options.value,disabled=options.disabled==='disabled')=options.value
+        block
 mixin inputPassword(options)
-  div(class="form-group")
-    label(for=options.id)=options.label
-    input(type="password" class="form-control" placeHolder="Enter a password" id=options.id)
-    block
+    div(class="form-group")
+        label(for=options.id)=options.label
+        input(type="password" class="form-control" placeHolder="Enter a password" id=options.id,disabled=options.disabled==='disabled')
+        block
 mixin inputSingleCheck(options)
-  div(class="checkbox")
-    label
-      if(options.disabled)
-        input(type="checkbox",id=options.id,disabled)
-      else
-        input(type="checkbox",id=options.id)
-      =options.label
-    block
+    div(class="checkbox")
+        label
+            input(type="checkbox",id=options.id,disabled=options.disabled==='disabled',checked=options.value===true)
+            =options.label
+        block
+mixin btnBase(options)
+    button(type=options.type,id=options.id,class="btn btn-"+options.class,onClick=options.onClick)&attributes(attributes)=options.label
 mixin btnDefault(options)
-  button(type=options.type,id=options.id,class="btn btn-default",onClick=options.onClick)&attributes(attributes)=options.label
+    - options.class = 'default'
+    +btnBase(options)&attributes(attributes)
 mixin btnPrimary(options)
-  button(type=options.type,id=options.id,class="btn btn-primary",onClick=options.onClick)&attributes(attributes)=options.label
+    - options.class = 'primary'
+    +btnBase(options)&attributes(attributes)
 mixin btnSuccess(options)
-  button(type=options.type,id=options.id,class="btn btn-success",onClick=options.onClick)&attributes(attributes)=options.label
+    - options.class = 'success'
+    +btnBase(options)&attributes(attributes)
 mixin btnInfo(options)
-  button(type=options.type,id=options.id,class="btn btn-info",onClick=options.onClick)&attributes(attributes)=options.label
+    - options.class = 'info'
+    +btnBase(options)&attributes(attributes)
 mixin btnWarning(options)
-  button(type=options.type,id=options.id,class="btn btn-warning",onClick=options.onClick)&attributes(attributes)=options.label
+    - options.class = 'warning'
+    +btnBase(options)&attributes(attributes)
 mixin btnDanger(options)
-  button(type=options.type,id=options.id,class="btn btn-danger",onClick=options.onClick)&attributes(attributes)=options.label
+    - options.class = 'danger'
+    +btnBase(options)&attributes(attributes)

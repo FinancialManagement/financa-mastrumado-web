@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
-
+app.locals.moment = require('moment');
 console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSS'));
 
 app.get('/', routes.index);
