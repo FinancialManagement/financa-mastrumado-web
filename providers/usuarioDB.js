@@ -34,7 +34,7 @@ exports.getLogin = function(user,onReturn){
 
 exports.listUsers = function (onReturn) {
     var db = myDB.newConnection()
-    db.query("SELECT idusuario,login,nome,senha,sisadmin,to_char(ultlogin, 'DD/MM/YYYY HH24:MI:SS') as ultlogin FROM USUARIOS ORDER BY idusuario")
+    db.query("SELECT idusuario,login,nome,sisadmin,ultlogin FROM USUARIOS ORDER BY idusuario")
     .then(function (data) {
         onReturn(data)
     })
@@ -45,7 +45,7 @@ exports.listUsers = function (onReturn) {
 
 exports.getUser = function(userID,onReturn){
     var db = myDB.newConnection()
-    db.query("SELECT idusuario,login,nome,senha,ultlogin,sisadmin FROM USUARIOS WHERE idusuario =$1", userID)
+    db.query("SELECT idusuario,login,nome,ultlogin,sisadmin FROM USUARIOS WHERE idusuario =$1", userID)
     .then(function (data) {
         if(data.length>0){
             onReturn(data[0])
@@ -59,17 +59,30 @@ exports.getUser = function(userID,onReturn){
 }
 
 exports.saveUser = function(userData,onReturn){
-    var sqlCommand = "INSERT INTO usuarios(login, nome, senha, sisadmin) VALUES ('${login^}', '${nome^}', '${senha^}', ${sisadmin^});"
+    var sqlCommand = "INSERT INTO usuarios(login, nome, senha, sisadmin) VALUES ('${login^}', '${nome^}', 'e10adc3949ba59abbe56e057f20f883e', ${sisadmin^});"
     if(userData.idusuario)
-        sqlCommand = "UPDATE usuarios SET login='${login^}', nome='${nome^}'"+(userData.sisadmin?"":", senha='${senha^}'")+" WHERE idusuario = ${idusuario^};"
+        sqlCommand = "UPDATE usuarios SET login='${login^}', nome='${nome^}' WHERE idusuario = ${idusuario^};"
     var db = myDB.newConnection()
     db.none(sqlCommand, userData)
     .then(function (data) {
         onReturn('Saved successful',true)
     })
     .catch(function (reason) {
-        console.log('reason',reason) // print error
-        console.log('reason.message',reason.message.replace(/"/g,'\\"')) // print error
+        //console.log('error:'+reason)
+        onReturn(reason.message.replace(/"/g,'\\"'),false)
+    })
+}
+
+exports.deleteUser = function(userID,onReturn){
+    console.log('deleteing on DB');
+    var sqlCommand = "DELETE FROM usuarios WHERE idusuario = ${idusuario^};"
+    var db = myDB.newConnection()
+    db.result(sqlCommand, {idusuario: userID})
+    .then(function (result) {
+        onReturn('Deleted successful',true)
+    })
+    .catch(function (reason) {
+        //console.log('error:'+reason)
         onReturn(reason.message.replace(/"/g,'\\"'),false)
     })
 }

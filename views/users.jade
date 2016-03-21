@@ -10,11 +10,11 @@ block content
                 +inputText({label:"ID",id:"userID",value:user.idusuario,disabled:'disabled'})
             +imputEmail({label:"Login",id:"userLogin",placeHolder:"Enter an email",value:user.login})
             +inputText({label:"Name",id:"userName",placeHolder:"Enter a name",value:user.nome})
-            +inputPassword({label:"Password",id:"userPassword",disabled:(user.sisadmin?'disabled':undefined)})
-            +inputPassword({label:"Retype password",id:"userPassword2",disabled:(user.sisadmin?'disabled':undefined)})
+            //+inputPassword({label:"Password",id:"userPassword",disabled:(user.sisadmin?'disabled':undefined)})
+            //+inputPassword({label:"Retype password",id:"userPassword2",disabled:(user.sisadmin?'disabled':undefined)})
             +inputSingleCheck({label:"System Admin",id:"userIsSysAdmin",value:user.sisadmin,disabled:(mode=='edit'?'disabled':undefined)})
             - if(mode=='edit')
-                +inputText({label:"Last login",id:"userUltLogin",value:moment(user.ultlogin).format("DD/MM/YYYY HH:mm:ss"),disabled:'disabled'})
+                +inputText({label:"Last login",id:"userUltLogin",value:(user.ultlogin?moment(user.ultlogin).format("DD/MM/YYYY HH:mm:ss"):''),disabled:'disabled'})
             +btnInfo({type:'button',label:'Cancel',id:'cancel',onClick:"toList();"})
             +btnSuccess({type:'button',label:'Save',id:'save',onClick:"saveUser();"})
         script.
@@ -33,8 +33,7 @@ block content
                 }
                 packUser.userData.login = $('#userLogin').val();
                 packUser.userData.nome = $('#userName').val();
-                packUser.userData.sisadmin = $('#userIsSysAdmin').is(':checked');
-                packUser.userData.senha = $('#userPassword').val();
+                packUser.userData.sisadmin = $('#userIsSysAdmin').is(':checked');                
                 console.log(packUser);
                 //*
                 $.ajax({
@@ -43,10 +42,9 @@ block content
                         data: packUser,
                         success: function (data) {
                             var ret = jQuery.parseJSON(data);
+                            alert(ret.msg);
                             if(ret.ok){                            
                                 toList();
-                            }else{
-                                alert(ret.msg);
                             }
                         },
                         error: function (xhr, status, error) {
@@ -77,11 +75,12 @@ block content
                                 td #{user.nome}
                                 td 
                                     +boolToStr(user.sisadmin)
-                                td #{user.ultlogin}
+                                td=(user.ultlogin?moment(user.ultlogin).format("DD/MM/YYYY HH:mm:ss"):'')
                                 td
                                     +btnPrimary({type:'button',onClick:"edit("+user.idusuario+");"})(class="glyphicon glyphicon-edit")
                                 td
-                                    +btnDanger({type:'button',onClick:"removeUser("+user.idusuario+");"})(class="glyphicon glyphicon-trash "+(user.sisadmin? 'disabled' : ''))
+                                    - if(!user.sisadmin)
+                                        +btnDanger({type:'button',onClick:"removeUser("+user.idusuario+");"})(class="glyphicon glyphicon-trash "+(user.sisadmin? 'disabled' : ''))
                     - }
         +btnSuccess({label:"Create user",type:"button",onClick:"newUser();"})
         script.
@@ -89,7 +88,7 @@ block content
                 post('/users',{mode:'edit',userID:userID});
             }
             function removeUser(userID){
-                post('/users',{mode:'delete',userID:userID});
+                ajaxPost('/users',{mode:'delete',userID:userID},'Deleting...',function(){window.location.reload();});
             }
             function newUser(){
                 post('/users',{mode:'insert'});

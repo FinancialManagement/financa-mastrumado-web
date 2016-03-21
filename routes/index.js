@@ -8,7 +8,10 @@ function checkLogin(req,res,cb){
         cb(req,res)
     }else{
         console.log('sem login')
-        res.render('login', { title: 'Financial Management'})
+        if(req.method=="GET")
+            res.render('login', { title: 'Financial Management'})
+        else
+            res.send('{"msg": "Invalid login","ok":false}')
     }
 }
 exports.index = function(req, res){
@@ -60,7 +63,7 @@ exports.users = function (req,res) {
         }else {
             var mode= 'insert'
             if(req.body.mode)
-            mode = req.body.mode
+                mode = req.body.mode
             if(mode=='insert'){
                 res.render('users', {login:req.session.login,active:'users',mode:mode})
             }else if(mode=='edit'){
@@ -71,8 +74,14 @@ exports.users = function (req,res) {
                 usrCtrl.saveUser(req.body.userData,function(msg,success){
                     res.send('{"msg": "'+msg+'","ok":'+success+'}')
                 })
+            }else if(mode=='delete'){
+                usrCtrl.deleteUser(req.body.userID,function(msg,success){
+                    res.send('{"msg": "'+msg+'","ok":'+success+'}')
+                })
             }else{
-                res.send('{"msg": "Invalid Request","ok":false}')
+                setTimeout(function(){
+                    res.send('{"msg": "Invalid Request","ok":false}')
+                },3000)
             }
         }
     })

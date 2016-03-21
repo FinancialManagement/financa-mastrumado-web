@@ -43,6 +43,27 @@ html
                 document.body.appendChild(form);
                 form.submit();
             }
+            function ajaxPost(path,data,blockMsg,cbSucc){
+                if(blockMsg)
+                    $.blockUI({message:'<h3>'+blockMsg+'</h3>'});
+                $.ajax({
+                        type: 'POST',
+                        url: path,
+                        data: data,
+                        success: function (data) {
+                            var ret = jQuery.parseJSON(data);
+                            alert(ret.msg);
+                            if(ret.ok){                      
+                                if(cbSucc)
+                                    cbSucc();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Error: ' + error.message);
+                            alert('Connection Error.');
+                        }
+                })
+            }
         body
             - if(typeof(login)!='undefined'){
             script(src='/js/menu.js')

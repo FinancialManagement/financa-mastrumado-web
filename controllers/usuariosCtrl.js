@@ -39,7 +39,7 @@ exports.listUsers = function(onReturn){
     })
 }
 
-exports.getUser = function(userID,onReturn){
+function getUser(userID,onReturn){
     usrProv.getUser(userID,function(retUser,error){
         var message = undefined
         if(error) message = {type:'danger',title:'Error',msg:error}
@@ -47,19 +47,38 @@ exports.getUser = function(userID,onReturn){
     })
 }
 
+exports.getUser = getUser;
+
 exports.saveUser = function(userData,onReturn){
     var valid = true
     var msg
-    console.log('sisadmin',userData.sisadmin);
+    /*
     if(!userData.sisadmin){
         userData.senha =hashPass(userData.senha)
     }
-    if (userData.senha && userData.sisadmin === true && userData.idusuario !== undefined) {
+    if (userData.senha && (userData.sisadmin==true) && userData.idusuario !== undefined) {
         valid = false
         msg = "Can't change the password of a System Admin"
     }
+    //*/
     if (valid)
         usrProv.saveUser(userData,onReturn)
     else
         onReturn(msg,valid)
+}
+
+exports.deleteUser = function(userID,onReturn){
+    var valid = true
+    var msg = 'let it go'
+    console.log('userID',userID)
+    //getUser(userID,function(userRet,msgRet){
+        //if(userRet){
+            console.log('deleting')
+            usrProv.deleteUser(userID,onReturn)
+            //onReturn('User deleted',true)
+        //}
+        //else{
+        //    onReturn('Invalid user',false)
+        //}
+    //})
 }
